@@ -2,10 +2,10 @@
 
 Adaptive Quiz app version 0.1 
 - Prototype version
-
 - Based on 'app' folder
 - All models are on 'app/model' including algorithm for adaptive quiz
 - 'static' and 'template' contain JavaScript and HTML/CSS
+**- Latest update was on app/__init__.py , but this is modified to support Canvas LMS integration**
 
 
 ## Deployment
