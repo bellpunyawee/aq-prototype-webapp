@@ -1,32 +1,20 @@
-# Adaptive Quiz App for Introduction to Project Management Course
+# Adaptive Quiz App
 
 Adaptive Quiz app version 0.1 
 - Prototype version
-- Standalone from KU Recommender
-- KLI-based UCB Implementing (can adjust exploration parameters)
 
-- Requirement Modification for UAT1a (In-progress tasks)
-    - HTML changes for UI
-    - LLM Embedding*
-    - Randomise the order of options feature*
+- Based on 'app' folder
+- All models are on 'app/model' including algorithm for adaptive quiz
+- 'static' and 'template' contain JavaScript and HTML/CSS
 
 
 ## Deployment
 
-Hosting on virtual private server --> https://adaptivequiz-cpfm.app/
-Please refer to deployment.md
-- Online Database Integration
-- Import 'online DB' from server
-- Export 'modified DB' to server
-- *Please backup DB once you imported from server, do not push DB to the server!!!
+Hosting on virtual private server
 
  
 ## Created Users (student000 to student050)
-Current User
-username: studentxxx
-password: 12345
-
-Replace 'xxx' = [001, 002, ..., 050]
+Registration system is required for admin
 
 ## Operation Procedure
 ----
@@ -36,7 +24,7 @@ Replace 'xxx' = [001, 002, ..., 050]
 3. Go to webpage (simple case is to go to http://localhost)
 4. Login with created credential from step 1
 
-## Operation Scenarios
+## Operation Scenarios (Tentative User Story)
 ----
 1. After completed *Operation Procedure* it will lead you to Pre-test session
 2. Complete the Pre-test session, webpage will redirect you to homepage (Must complete, otherwise you will not be able to go to main application)
