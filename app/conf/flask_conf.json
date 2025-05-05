@@ -1,0 +1,7 @@
+{
+  "HOST": "0.0.0.0",
+  "PORT": 80,
+  "DEBUG_HOST": "0.0.0.0",
+  "DEBUG_PORT": 15236,
+  "SESSION_PERMANENT": false
+}

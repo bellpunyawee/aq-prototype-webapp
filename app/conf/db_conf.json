@@ -1,0 +1,9 @@
+{
+    "ADQ_DB": "./db/adq.db",
+    "USERINFO_DB": "./db/user_info.db",
+    "USERPHOTO_DB": "./db/user_photo.db",
+    "USER_QUERY_DB": "./db/user_query.db",
+    "USER_ACTIVITY_LOG_DB": "./db/user_activity_log.db",
+    "TEXTBOXAREA_DB": "./db/textboxdata.db",
+    "DISCLAIMER_TEXT": "./app/conf/disclaimer_text.txt"
+}

@@ -1,0 +1,414 @@
+.divpad {
+  padding: 0.25%;
+}
+
+#top-row {
+  padding-top: 1%;
+  padding-left: 1%;
+  padding-right: 2%;
+}
+
+#menu-row {
+  padding-top: 1%;
+  padding-left: 1%;
+  padding-right: 1%;
+}
+
+.tab-content {
+  padding-top: 2%;
+  padding-left: 2%;
+  padding-right: 2%;
+  overflow: auto;
+}
+.row {
+  --bs-gutter-x: 0; /* This will remove the horizontal gutter */
+}
+
+.attempt-summary-container,
+.attempt-chart-container {
+  padding: 5px;
+  margin: 0.5%;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+}
+
+.save-button {
+  background-color: #003d7c;
+  border-color: #003d7c;
+}
+
+.custom-width {
+  max-width: 1800px;
+  width: 100%;
+}
+
+.toggle-icon {
+  font-size: 1.5rem;
+  margin-left: auto;
+  cursor: pointer;
+}
+/* Default icon when expanded (minus sign) */
+.toggle-icon::before {
+  content: "\2212"; /* Unicode for minus sign */
+}
+/* Icon when collapsed (plus sign) */
+.collapsed .toggle-icon::before {
+  content: "\002B"; /* Unicode for plus sign */
+}
+
+#abort_btn:hover {
+  transform: scale(1.02); /* Slight scaling on hover */
+  box-shadow: 0 8px 16px rgba(206, 124, 103, 0.342); /* Deeper shadow on hover */
+}
+
+#submit_btn:hover {
+  transform: scale(1.02); /* Slight scaling on hover */
+  box-shadow: 0 8px 16px rgba(54, 190, 83, 0.3); /* Deeper shadow on hover */
+}
+
+#idk_btn:hover {
+  transform: scale(1.02); /* Slight scaling on hover */
+  box-shadow: 0 8px 16px rgba(151, 152, 156, 0.3); /* Deeper shadow on hover */
+}
+
+#next_question:hover {
+  transform: scale(1.02); /* Slight scaling on hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Deeper shadow on hover */
+}
+
+/* Personalised Learning Path */
+
+/* Temporarily not used as disclaimer is skipped during QE2 in AQ */
+#disclaimer_btn {
+  color: #003d7c; /* Initial text color */
+  background-color: transparent; /* No background by default */
+  border-color: #003d7c; /* Set border color */
+}
+
+#disclaimer_btn:hover {
+  background-color: #003d7c; /* Change background color on hover */
+  color: white; /* Change text color to white on hover */
+  border-color: #003d7c; /* Keep border color the same */
+  transform: scale(1.02); /* Slight scaling on hover */
+  box-shadow: 0 8px 16px #b0d9f6;
+}
+
+#disclaimer_btn i {
+  color: #003d7c; /* Icon color */
+}
+
+#disclaimer_btn:hover i {
+  color: white; /* Change icon color to white on hover */
+}
+
+#start_quiz_btn_QE2_OG_disclaimer {
+  color: #003d7c; /* Initial text color */
+  background-color: transparent; /* No background by default */
+  border-color: #003d7c; /* Set border color */
+}
+
+#start_quiz_btn_QE2_OG_disclaimer:hover {
+  background-color: #003d7c; /* Change background color on hover */
+  color: white; /* Change text color to white on hover */
+  border-color: #003d7c; /* Keep border color the same */
+  transform: scale(1.02); /* Slight scaling on hover */
+  box-shadow: 0 8px 16px #b0d9f6;
+}
+
+#start_quiz_btn_QE2_OG_disclaimer i {
+  color: #003d7c; /* Icon color */
+}
+
+#start_quiz_btn_QE2_OG_disclaimer:hover i {
+  color: white; /* Change icon color to white on hover */
+}
+
+#start_learning_btn {
+  color: #003d7c; /* Initial text color */
+  background-color: transparent; /* No background initially */
+  border-color: #003d7c; /* Border color same as text */
+}
+
+#start_learning_btn:hover {
+  background-color: #003d7c; /* Change background on hover */
+  color: white; /* Change text to white on hover */
+  border-color: #003d7c; /* Keep the same border color */
+}
+
+#start_learning_btn i {
+  color: #003d7c; /* Icon color same as text */
+}
+
+#start_learning_btn:hover i {
+  color: white; /* Change icon to white on hover */
+}
+
+#path-list li {
+  width: 100%;
+  margin: 0 0 3px;
+  background-color: #003d7c;
+  border-radius: 8px;
+  padding: 7px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 61, 124, 0.3);
+  color: #ffffff;
+  font-weight: bold;
+  cursor: move; /* Shows the user it's draggable */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#full-list li {
+  width: 100%;
+  margin: 0 0 3px;
+  background-color: #a9a9a9;
+  border-radius: 8px;
+  padding: 7px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(169, 169, 169, 0.4);
+  color: #ffffff;
+  font-weight: bold;
+  cursor: move; /* Shows the user it's draggable */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#full-list li:hover {
+  transform: scale(1.02); /* Slight scaling on hover */
+  box-shadow: 0 8px 16px #888888; /* Deeper shadow on hover */
+}
+
+#full-list nav ul {
+  height: 500px;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+#path-list li:hover {
+  transform: scale(1.02); /* Slight scaling on hover */
+  box-shadow: 0 8px 16px #00509e; /* Deeper shadow on hover */
+}
+#path-list ul,
+#full-list ul {
+  padding: 5px;
+}
+.reorder,
+.reorder-full {
+  max-width: 300px; /* Adjust as needed */ /* Center the list */
+}
+
+/* -------------------- */
+
+/* Hover effect for the options */
+.option-hover {
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.option-hover:hover {
+  background-color: #a7c7e7; /* Light background on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow on hover */
+  cursor: pointer; /* Cursor change to indicate clickable */
+}
+
+.form-check-input:checked ~ label {
+  background-color: #fbfdff;
+  color: rgb(0, 0, 0);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* Increase toast size */
+.larger-toast {
+  width: 600px; /* You can adjust this as needed */
+  padding: 35px; /* Add extra padding for a larger feel */
+}
+
+/* Align Confirm and Cancel buttons to the right */
+.toast-body .d-flex.justify-content-end {
+  margin-top: 10px;
+}
+
+/* Optional: Add spacing between the buttons */
+#cancelSubmitBtn {
+  margin-right: 10px;
+}
+
+/* Spinner CSS - Smaller size for button */
+.lds-roller {
+  display: inline-block;
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+.lds-roller div {
+  animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  transform-origin: 10px 10px;
+}
+.lds-roller div:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  margin: -2px 0 0 -2px;
+}
+.lds-roller div:nth-child(1) {
+  animation-delay: -0.036s;
+}
+.lds-roller div:nth-child(1):after {
+  top: 15.6569px;
+  left: 15.6569px;
+}
+.lds-roller div:nth-child(2) {
+  animation-delay: -0.072s;
+}
+.lds-roller div:nth-child(2):after {
+  top: 16.9282px;
+  left: 14px;
+}
+.lds-roller div:nth-child(3) {
+  animation-delay: -0.108s;
+}
+.lds-roller div:nth-child(3):after {
+  top: 17.7274px;
+  left: 12.0706px;
+}
+.lds-roller div:nth-child(4) {
+  animation-delay: -0.144s;
+}
+.lds-roller div:nth-child(4):after {
+  top: 18px;
+  left: 10px;
+}
+.lds-roller div:nth-child(5) {
+  animation-delay: -0.18s;
+}
+.lds-roller div:nth-child(5):after {
+  top: 17.7274px;
+  left: 7.9294px;
+}
+.lds-roller div:nth-child(6) {
+  animation-delay: -0.216s;
+}
+.lds-roller div:nth-child(6):after {
+  top: 16.9282px;
+  left: 6px;
+}
+.lds-roller div:nth-child(7) {
+  animation-delay: -0.252s;
+}
+.lds-roller div:nth-child(7):after {
+  top: 15.6569px;
+  left: 4.3431px;
+}
+.lds-roller div:nth-child(8) {
+  animation-delay: -0.288s;
+}
+.lds-roller div:nth-child(8):after {
+  top: 14px;
+  left: 3.0718px;
+}
+@keyframes lds-roller {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Tab Answer History */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+}
+.tab button:hover {
+  background-color: #ddd;
+}
+.tab button.active {
+  background-color: #ef7c00;
+}
+
+.card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+p {
+  margin: 0;
+}
+
+i.bi-stopwatch {
+  color: #6c757d; /* Clock icon color */
+}
+
+/* Hover effect for the info icon */
+.info-icon {
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* Icon hover effect */
+.info-icon:hover {
+  transform: scale(1.2); /* Slightly enlarge the icon on hover */
+  color: #003d7c; /* Change the icon color to darker blue */
+}
+
+/* Tab Container */
+.tab-container {
+  display: flex;
+  flex-wrap: wrap; /* Allow the tabs to wrap into new rows */
+  margin-bottom: 1rem;
+  position: relative;
+  width: 100%;
+  text-align: left;
+}
+
+/* Header where the tabs are located */
+.tab-header {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  position: relative;
+  flex-wrap: wrap; /* Enable wrapping of tabs */
+  gap: 10px; /* Space between tabs */
+  border-bottom: 1px solid #f1f1f1; /* Light bottom border */
+}
+
+/* Styling for each tab */
+.tablinks {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 8px 14px;
+  margin: 0 10px;
+  font-size: 20px;
+  font-weight: 500;
+  color: #9b9898; /* Light gray for inactive tabs */
+  transition: color 0.2s ease;
+  flex: 0 1 auto; /* Allow the tab to grow and wrap as needed */
+}
+
+/* Active tab background and color */
+.tablinks.active {
+  background-color: #e9953b;
+  color: white;
+  border-radius: 10px;
+}
+
+/* Hover effect for inactive tabs */
+.tablinks:hover {
+  color: #ef7c00;
+}

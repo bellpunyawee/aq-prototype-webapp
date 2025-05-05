@@ -1,0 +1,36 @@
+﻿Course Learning Objectives:
+Understand pre-initiating and initiating processes.
+Create a project charter and assumption log and identify stakeholders.
+Conduct a project kick-off meeting.
+Develop project management, communication, and stakeholder engagement plans.
+Plan procurement processes, including criteria, supplier selection, make-or-buy decisions, and risk management.
+Apply a predictive approach to project execution.
+Manage project work, knowledge, and integration effectively.
+Explain the process of conducting procurements and evaluate seller selection.
+Apply effective communication strategies for managing project information flow.
+Implement strategies to increase stakeholder engagement and minimise resistance.
+Monitor and control project communication, procurement, and stakeholder management.
+Ensure procurement activities meet requirements.
+Evaluate stakeholder engagement to maintain or increase it.
+Describe methods for project closure, including customer acceptance and reporting.
+Finalise the lessons learned register and conduct a project close-out meeting.
+
+
+Instructions for Feedback:
+Start by commending the learner for their efforts and any specific achievements. 
+Highlight what they did well to reinforce positive behaviours and outcomes.
+Address areas where the learner can improve. Use specific examples from the quiz to illustrate points clearly and suggest practical ways they can enhance their understanding or skills.
+Include a prompt for the learner to reflect on their own learning by asking open-ended questions about the material and their study habits. This fosters self-directed learning and critical thinking.
+Ask the learner to provide feedback on the usefulness of the review.
+
+Write concisely in first-person narrative as a team of instructors.
+This is very important - Only output the main text, because I will manually add the greeting and signature later myself.
+Don't include any title.
+Include professional emojis.
+Use British spelling.
+Use bullet points to simplify the feedback where applicable. 
+Use short sentences so that the feedback is easier to read and skim through.
+Keep the feedback concise, i.e., short, and super reading-friendly. 
+Define terms and processes succinctly within the feedback.
+Consider the learner's profile and include examples or scenarios specific to construction project management.
+

@@ -1,0 +1,65 @@
+name: Build and Deploy to AWS Self-Hosted
+
+# on:
+#   workflow_run:
+#     workflows: [Build and Test]
+#     branches: ["support/migrate-deployment"]
+#     types:
+#       - completed
+
+on:
+  push:
+    branches: ["lti-integration"]
+  pull_request:
+    branches: ["lti-integration"]
+
+env:
+  CONTAINER_NAME: adaptivequiz-cpfm-web
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, ec2]
+    steps:
+      - name: Copy repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Set environment variables from GitHub Secrets
+        run: |
+          export CANVAS_API_KEY=${{ secrets.CANVAS_API_KEY }}
+          export OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
+          export PINECONE_API_KEY=${{ secrets.PINECONE_API_KEY }}
+          export CANVAS_PROD_KEY=${{ secrets.CANVAS_PROD_KEY }}
+          export OVERRIDE=${{ secrets.OVERRIDE }}
+
+      - name: Sync repository to EBS volume
+        run: cd /ebs_volume/actions-runner/_work/AQ_Prototype/AQ_Prototype; rsync -av --delete . /ebs_volume/adaptivequiz ; cd /ebs_volume/adaptivequiz
+
+      - name: Stop and remove the existing container (if it exists)
+        run: make clean
+        
+      - name: Build the production image and run the container
+        run: make run-prod
+        env:
+          CANVAS_API_KEY: ${{ secrets.CANVAS_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
+          CANVAS_PROD_KEY: ${{ secrets.CANVAS_PROD_KEY }}
+          OVERRIDE: ${{ secrets.OVERRIDE }}
+      # - name: Build the production image and run the container
+      #   run: make run-prod
+
+      - name: Wait for the container to be healthy
+        run: |
+          for _ in {1..30}; do
+            docker inspect --format='{{.State.Status}}' $CONTAINER_NAME | grep -q "running"
+            if [ $? -eq 0 ]; then
+              echo "Container is running."
+              break
+            fi
+            sleep 5
+          done
+
+      - name: Clear all docker unused cache
+        run: docker system prune -a -f

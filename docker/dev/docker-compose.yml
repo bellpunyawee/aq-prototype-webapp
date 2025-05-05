@@ -1,0 +1,10 @@
+services:
+  flask_app:
+    build:
+      context: ../../
+      dockerfile: docker/dev/Dockerfile
+    ports:
+      - "15236:15236"
+    volumes:
+      - ../../db:/usr/src/app/db
+      - ../../app:/usr/src/app/app

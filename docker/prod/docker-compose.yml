@@ -1,0 +1,26 @@
+services:
+  flask_app:
+    container_name: adaptivequiz-cpfm-web
+    environment:
+      - TZ=Asia/Singapore
+      - CANVAS_API_KEY=${CANVAS_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - PINECONE_API_KEY=${PINECONE_API_KEY}
+      - CANVAS_PROD_KEY=${CANVAS_PROD_KEY}
+      - OVERRIDE=${OVERRIDE}
+      
+    build:
+      context: ../../
+      dockerfile: docker/prod/Dockerfile
+    volumes:
+      - /ebs_volume/db:/usr/src/app/db
+    networks:
+      - web-proxy
+    ports:
+      - "5000:80"
+
+networks:
+  web-proxy:
+    external: true
+    name: reverse-proxy
+    driver: bridge

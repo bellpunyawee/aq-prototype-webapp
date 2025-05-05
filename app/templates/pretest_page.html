@@ -1,0 +1,164 @@
+<!-- Extended from the header-->
+{% extends "header_template.html" %}
+<!-- CSS Script -->
+{% block css_script_1 %}
+<link href="{{url_for('static', filename='css/jquery.dataTables.min.css')}}" rel="stylesheet" />
+{% endblock %} {% block css_script_2 %}
+<link href="{{url_for('static', filename='dashboard.css')}}" rel="stylesheet" />
+{% endblock %}
+<!-- JS Script-->
+{% block js_script_1 %}
+<script src="{{url_for('static', filename='js/jquery.dataTables.min.js')}}"></script>
+{% endblock %} {% block js_script_2 %}
+<script src="{{url_for('static', filename='js/chart.js')}}"></script>
+{% endblock %} {% block js_script_3 %} {% if session_start == true %}
+<script src="{{url_for('static', filename='pretest.js')}}"></script>
+<script type="text/javascript">
+  // Embedding Python variables into JavaScript
+  const sessionStart = "{{ session_start }}";
+  const sessionCookies = "{{ session }}"
+  const timerSelect = "{{ timer_select }}";
+  const quizNumber = "{{ quiz_number }}";
+  const maxLimit = "{{ max_limit }}";
+  const isDeepLinkLaunch = "{{ is_deep_link_launch }}";
+  const launchData = "{{ launch_data }}";
+  const launchId = "{{ launch_id }}";
+  const currUserName = "{{ curr_user_name }}";
+  const LtiUserName = "{{ username }}";
+
+</script>
+{% endif %} {% endblock %}
+<!-- Body -->
+{% block body_app %}
+<div class="container m-auto py-3" id="top-row">
+  <div class="row">
+    <!-- Warning Alert -->
+    <div class="alert alert-warning fw-bold" role="alert"><i class="bi bi-exclamation-square-fill"></i>&nbsp; This
+      site is still
+      under development. Bugs and broken pages are expected.</div>
+  </div>
+  <!-- Breadcrumbs -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb px-3 py-2">
+      <li class="breadcrumb-item"><a class="link-body-emphasis disabled" href="/"><i class="bi bi-house-fill"></i>
+          <span class="visually-hidden">Home</span></a></li>
+      <li class="breadcrumb-item active"><a class="link-body-emphasis fw-semibold text-decoration-none"
+          href="#">Baseline Quiz</a></li>
+    </ol>
+  </nav>
+</div>
+
+
+
+
+<!-- Header Card -->
+<div class="container mx-auto">
+  <div class="row p-3" id="header-text">
+    <div class="col py-2 px-4" id="welcome-text">
+      <h1 class="display-5 fw-bold text-body-emphasis">Baseline Quiz</h1>
+      <h2 class="fs-5"><i class="bi bi-person-vcard-fill"></i> Welcome to Adaptive Quiz, {{ curr_user_name }} <strong id="{{ curr_user_name }}"></strong></h2>
+    </div>
+    <div class="alert alert-danger fw-bold fs-4" role="alert"><i class="bi bi-info-circle-fill"></i>&nbsp;
+      Please do this quiz to determine your knowledge. Do it to the best of your ability.
+      The result from this will be used to personalise your learning experience.</div>
+  </div>
+</div>
+</div>
+
+<!-- Quiz Window -->
+<div class="row mx-auto py-2 px-4" id="quiz_page">
+  <div class="row" id="quiz_alert_point"></div>
+  <div class="row card py-4 px-3">
+    <!-- Time Elapse -->
+    <div class="d-flex justify-content-between mb-4">
+      <button class="btn btn-secondary disable"><i class="bi bi-hourglass-split"></i> <span id="span_timer">0:00</span>
+        mins</button>
+      <h3 class="fs-3 fw-bold text-body-emphasis"> </h3>
+      <button class="btn btn-dark disable"><strong>Total question answered:</strong> <span
+          id="progress_span"></span></button>
+    </div>
+    <!-- Answer History -->
+    <div class="d-flex justify-content-center">
+      <!-- <div id="answer_history"></div> -->
+    </div>
+    <!-- Line to separate history and question -->
+    <div class="mx3">
+      <hr>
+    </div>
+    <div class="d-flex flex-column px-3">
+      <!-- Question -->
+      <div class="mb-3">
+        <h4 class="fw-bold fs-3 pt-3">Question <span id="question_number"></span></h4>
+        <p class="fs-4 pb-3" id="question_text"></p>
+      </div>
+      <!-- Options -->
+      <div class="d-flex flex-column">
+        <!-- Opt A -->
+        <label class="p-3 border rounded-3 mb-2 text-break fs-5 option-hover w-100">
+            <input type="radio" class="form-check-input me-2" name="answer_choice" id="check_1" checkbox-role="choice_selector">
+            <strong>Option A:</strong>&nbsp;<span id="answer_text_1"></span>
+        </label>
+
+        <!-- Opt B -->
+        <label class="p-3 border rounded-3 mb-2 text-break fs-5 option-hover w-100">
+            <input type="radio" class="form-check-input me-2" name="answer_choice" id="check_2" checkbox-role="choice_selector">
+            <strong>Option B:</strong>&nbsp;<span id="answer_text_2"></span>
+        </label>
+
+        <!-- Opt C -->
+        <label class="p-3 border rounded-3 mb-2 text-break fs-5 option-hover w-100">
+            <input type="radio" class="form-check-input me-2" name="answer_choice" id="check_3" checkbox-role="choice_selector">
+            <strong>Option C:</strong>&nbsp;<span id="answer_text_3"></span>
+        </label>
+
+        <!-- Opt D -->
+        <label class="p-3 border rounded-3 mb-2 text-break fs-5 option-hover w-100">
+            <input type="radio" class="form-check-input me-2" name="answer_choice" id="check_4" checkbox-role="choice_selector">
+            <strong>Option D:</strong>&nbsp;<span id="answer_text_4"></span>
+        </label>
+      </div>
+    <!-- Toast Container - Centered -->
+    <div class="position-fixed top-50 start-50 translate-middle" style="z-index: 11">
+        <div id="quizConfirmToast" class="toast larger-toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header" style="font-size: 36px;">
+                <strong class="me-auto" id="toastConfirmTitle">Confirm Submission?</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" id="toastConfirmMessage">
+                Are you sure you want to submit your answer?
+                <div class="mt-3 d-flex justify-content-end" style="font-size: large;">
+                    <button type="button" class="btn btn-danger" id="cancelSubmitBtn">Cancel</button>
+                    <button type="button" class="btn btn-success me-2" id="confirmSubmitBtn">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- IDK and Submit Button -->
+    <div class="d-flex justify-content-end mt-3">
+      <!-- Remove Idk button as part of QE2 comparison vs UAT. To standardise the difference -->
+        <!-- <button type="button" class="btn btn-secondary btn-lg fw-bold" id="idk_btn">
+            I don't know &nbsp;<i class="bi bi-question-circle-fill"></i>
+        </button> -->
+        &nbsp;&nbsp;<div class="vr"></div>&nbsp;&nbsp;
+        <button type="button" class="btn btn-success btn-lg fw-bold" id="submit_btn">
+            Confirm &nbsp;<i class="bi bi-arrow-right-circle-fill"></i>
+        </button>
+    </div>
+      <!-- Explanation -->
+      <div class="fade" id="explanation_card">
+        <div class="mb-2">
+          <h4 class="fw-bold fs-3">Please click the "Next" button to continue</h4>
+          <!-- <h4 class="fw-bold fs-3">Result: <span id="result_text"></span></h4> -->
+        </div>
+        <!-- <p class="fs-4" id="explanation_text"></p> -->
+      </div>
+      <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-dark btn-lg" id="next_question">Next</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

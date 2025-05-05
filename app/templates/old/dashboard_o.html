@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<!-- Extended from the header-->
+{% extends "header_template.html" %}
+<!-- CSS Script -->
+{% block css_script_1 %}
+<link href="{{url_for('static', filename='css/jquery.dataTables.min.css')}}" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+{% endblock %}
+{% block css_script_2 %}
+<link href="{{url_for('static', filename='dashboard.css')}}" rel="stylesheet">
+{% endblock %}
+<!-- JS Script-->
+{% block js_script_1 %}
+<script src="{{url_for('static', filename='js/jquery.dataTables.min.js')}}"></script>
+{% endblock %}
+{% block js_script_2 %}
+<script src="{{url_for('static', filename='js/chart.js')}}"></script>
+{% endblock %}
+{% block js_script_3 %}
+<script src="{{url_for('static', filename='js/chartjs-plugin-datalabels.js')}}"></script>
+{% endblock %}
+{% block js_script_4 %}
+{% if session_start == true %}
+<script src="{{url_for('static', filename='dashboard.js')}}"></script>
+{% endif %}
+{% endblock %}
+<!-- Body -->
+{% block body_app %}
+<div class="row" id="top-row">
+    <div class="row">
+        <div class="col text-start">
+            <div class="d-none" id="header_text">
+                <div class="d-none" id="welcome_text">
+                    <h1><b>Adaptive Quiz</b></h1>
+                    <h3><b>Project Monitoring and Control</b></h3>
+                    <h3>Welcome back, <i id="username_text"></i></h3>
+                    <h5>Here is an overview of your progress and performance</h5>
+                </div>
+                <div class="d-none" id="adt_text">
+                    <h3><b>Adaptive Quiz</b></h3>
+                    <h5>&nbsp;</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col text-end">
+            <span id="abort_point">
+
+            </span>
+
+        </div>
+        <!-- This comment contains abort question, learning path and search -->
+        <!-- <div class="col text-end">
+            <span id="abort_point">
+                
+            </span>
+            <button class="btn btn-dark"><svg fill="currentColor"><use xlink:href="#steps"/></svg>My learning path</button>
+        </div>
+        <div class="col text-end">
+            <div class="input-group mb-3">
+                <span class="input-group-text"><svg><use xlink:href="#search"/></svg></span>
+            <input type="text" class="form-control" placeholder="Search" readonly>
+            </div>
+        </div> -->
+    </div>
+    <div class="row">
+        <div class="col text-start">
+            <h3><i class="d-none" id="attempt_point"></i></h3>
+        </div>
+    </div>
+</div>
+<div class="d-none" id="non-session">
+    <div class="row" id="menu-row"> <!-- hidable-->
+        <ul class="nav nav-tabs" id="page_tab" role="tablist">
+            <span class="input-group-text d-none">
+                <button class="btn btn-light btn-sm" id="tab-4" data-bs-toggle="tab" data-bs-target="#tab-pane-4"
+                    type="button" role="tab" aria-controls="tab-pane-4" aria-selected="false"></button>
+            </span>
+            <div class="input-group mb-3">
+                <span class="input-group-text">
+                    <button class="btn btn-light btn-sm active" id="tab-1" data-bs-toggle="tab"
+                        data-bs-target="#tab-pane-1" type="button" role="tab" aria-controls="tab-pane-1"
+                        aria-selected="true"><svg>
+                            <use xlink:href="#lightning" />
+                        </svg>Overview</button>
+                </span>
+                <span class="input-group-text">
+                    <button class="btn btn-light btn-sm disabled" id="tab-2" data-bs-toggle="tab"
+                        data-bs-target="#tab-pane-2" type="button" role="tab" aria-controls="tab-pane-2"
+                        aria-selected="false"><svg>
+                            <use xlink:href="#file-text" />
+                        </svg>Report</button>
+                </span>
+                <span class="input-group-text">
+                    <button class="btn btn-light btn-sm" id="tab-3" data-bs-toggle="tab" data-bs-target="#tab-pane-3"
+                        type="button" role="tab" aria-controls="tab-pane-3" aria-selected="false"><svg
+                            fill="currentColor">
+                            <use xlink:href="#sliders" />
+                        </svg>Settings</button>
+                </span>
+            </div>
+
+        </ul>
+    </div>
+    <div class="tab-content" id="main_page">
+        <div class="row" id="main_alert_point">
+        </div>
+        <div class="tab-pane show active" id="tab-pane-1" role="tabpanel" aria-labelledby="overview-tab" tabindex="0">
+            <div class="row">
+                <div class="col"> <!-- info-->
+                    <div class="row">
+                        <div class="col text-center card">
+                            <div class="divpad"></div>
+                            <h3 class="text-start">
+                                <span class="input-group-text">
+                                    <svg>
+                                        <use xlink:href="#person-badge" />
+                                    </svg><b>Profile info</b>
+                                </span>
+                            </h3>
+                            <a href="#" id="show_upload"><img id="profile_img" height="250" class="rounded-circle"
+                                    title="Click to upload new photo" /></a>
+                            <div class="divpad"></div>
+                            <div class="d-none" id="upload_photo_box">
+                                <div class="row mb-3">
+                                    <label for="image_file" class="text-start form-label"><b>Upload new
+                                            photo</b></label>
+                                    <input class="form-control" type="file" id="image_file">
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <button class="btn btn-info" id="submit_photo_btn"
+                                            href="/req_upload_profile_picture">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col text-start">
+                                    <b>Learner ID:</b>
+                                    <input id="my_learner_id" type="text" class="form-control" placeholder="Learner ID"
+                                        id="info" readonly disabled>
+                                    <b>Name:</b>
+                                    <input id="my_name" type="text" class="form-control" placeholder="Name"
+                                        id="user_name" readonly disabled>
+                                </div>
+                                <div class="col text-center">
+                                    <button class="btn btn-primary btn-lg" id="disclaimer_btn">Start quiz <svg
+                                            fill="currentColor">
+                                            <use xlink:href="#cursor-fill" />
+                                        </svg></button>
+                                </div>
+                            </div>
+                            <div class="divpad"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Commented out mastery table until past UAT -->
+                <!-- <div class="col card">
+                    <div class="divpad"></div>
+                    <h3 class="text-start">
+                        <span class="input-group-text">
+                        <svg><use xlink:href="#book"/></svg><b>Cell (Mastery) Status</b>
+                    </span></h3>
+                    <table class="table table-sm table-bordered table-dark text-center">
+                        <tr>
+                            <td useFor="mastery" cellId="1">1</td>
+                            <td useFor="mastery" cellId="2">2</td>
+                            <td useFor="mastery" cellId="3">3</td>
+                        </tr>
+                        <tr>
+                            <td useFor="mastery" cellId="4">4</td>
+                            <td useFor="mastery" cellId="5">5</td>
+                            <td useFor="mastery" cellId="6">6</td>
+                        </tr>
+                        <tr>
+                            <td useFor="mastery" cellId="7">7</td>
+                            <td useFor="mastery" cellId="8">8</td>
+                            <td useFor="mastery" cellId="9">9</td>
+                        </tr>
+                        <tr>
+                            <td useFor="mastery" cellId="10">10</td>
+                            <td useFor="mastery" cellId="11">11</td>
+                            <td useFor="mastery" cellId="12">12</td>
+                        </tr>
+                        <tr>
+                            <td useFor="mastery" cellId="13">13</td>
+                            <td useFor="mastery" cellId="14">14</td>
+                            <td useFor="mastery" cellId="15">15</td>
+                        </tr>
+                        <tr>
+                            <td useFor="mastery" cellId="16">16</td>
+                            <td useFor="mastery" cellId="17">17</td>
+                            <td useFor="mastery" cellId="18">18</td>
+                        </tr>
+                        <tr>
+                            <td useFor="mastery" cellId="19">19</td>
+                            <td useFor="mastery" cellId="20">20</td>
+                            <td useFor="mastery" cellId="21">21</td>
+                        </tr>
+                        <tr>
+                            <td useFor="mastery" cellId="22">22</td>
+                            <td useFor="mastery" cellId="23">23</td>
+                            <td useFor="mastery" cellId="24">24</td>
+                        </tr>
+                        <tr>
+                            <td useFor="mastery" cellId="25">25</td>
+                            <td useFor="mastery" cellId="26">26</td>
+                            <td useFor="mastery" cellId="27">27</td>
+                        </tr>
+                        <tr>
+                            <td useFor="mastery" cellId="28">28</td>
+                            <td useFor="mastery" cellId="29">29</td>
+                            <td useFor="mastery" cellId="30">30</td>
+                        </tr>
+                    </table>
+                </div> -->
+            </div>
+            <div class="divpad"></div>
+            <div class="row" style="overflow:auto;">
+                <div class="col card">
+                    <div class="p-2 g-col-6" style="background-color:#FFFFFF;">
+                        <h3 class="text-start">
+                            <span class="input-group-text">
+                                <div class="btn btn-light btn-sm" id="view_switch_btn"><b id="view_switch_title">Score
+                                        History</b></div>
+                            </span>
+                        </h3>
+                        <!-- <canvas id="learner_ability_chart" width="70vw" height="11vh"></canvas> -->
+                        <canvas id="learner_score_chart" width="70vw" height="11vh"></canvas>
+                    </div>
+                    <div id="ability_chart_status"></div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade d-none" id="tab-pane-2" role="tabpanel" aria-labelledby="report-tab" tabindex="1">
+            <div class="row">
+                <div class="col card attempt-chart-container"> <!-- info-->
+                    <div class="divpad"></div>
+                    <h3 class="text-start"></h3>
+                    <h3 class="text-start">
+                        <span class="input-group-text">
+                            <svg>
+                                <use xlink:href="#graph-up-arrow" />
+                            </svg><b>Progress report: <i id="attempt_report"></i></b>
+                        </span>
+                    </h3>
+                    <!-- Displays the last 2 score attempts -->
+                    <canvas id="attempt_score_chart" width="50vw" height="20vh"></canvas>
+                    <div id="attempt_chart_status"></div>
+
+                    <!-- Displays the last 2 learner ability -->
+                    <!-- <canvas id="attempt_chart" width="50vw" height="20vh"></canvas>
+                    <div id="attempt_chart_status"></div> -->
+                </div>
+                <div class="col attempt-summary-container">
+                    <div class="row"> <!-- attempt stat / reattempt-->
+                        <div class="col">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">Total time taken</span>
+                                <input type="text" class="form-control" id="report_time" readonly disabled>
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">Answered correctly</span>
+                                <input type="text" class="form-control" id="report_correct" readonly disabled>
+                            </div>
+
+                        </div>
+                        <div class="col">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">Module(s)</span>
+                                <input type="text" class="form-control" id="selected_cell" readonly disabled>
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">Total quiz answered</span>
+                                <input type="text" class="form-control" id="report_num_quiz" readonly disabled>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col text-center">
+                            <textarea class="form-control" id="text_box_tbd" disabled readonly></textarea>
+                        </div>
+
+                    </div>
+                    <div class="divpad"></div>
+                    <div class="row">
+                        <div class="col text-center">
+                            <button class="btn btn-dark" id="retake_quiz_btn">Reattempt adaptive quiz <svg
+                                    fill="currentColor">
+                                    <use xlink:href="#arrow-right" />
+                                </svg></button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="divpad"></div>
+            <div class="row"> <!-- question answered -->
+                <h3 class="text-start">
+                    <span class="input-group-text">
+                        <svg>
+                            <use xlink:href="#clock-history" />
+                        </svg><b><i id="attempt_report_ans"></i> Answer history</b> &nbsp; (Click on answer history to
+                        see explanation)
+                    </span>
+                </h3>
+                <h3 class="text-start"></h3>
+                <div class="col">
+                    <div class="container-fluid text-center" id="report_attempt_answer">
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="divpad"></div>
+            <div class="row card d-none" id="history_exp_card">
+                <div class="col text-center">
+                    <div class="card-body">
+                        <table class="table table-borderless" style="table-layout: fixed;">
+                            <tr>
+                                <th class="text-start">
+                                    <h4>Question:</h4>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th class="text-start" style="word-wrap: break-word; white-space: normal !important; ">
+                                    <h5 id="history_question_text"></h5>
+                                </th>
+                            </tr>
+                            <tr>
+                                <td class="text-start">
+                                    <h4>Your answer:</h4>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-start" style="word-wrap: break-word; white-space: normal !important; ">
+                                    <h5 id="history_answer_text"></h5>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-start">
+                                    <h4>Explanation:</h4>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-start" style="word-wrap: break-word; white-space: normal !important; ">
+                                    <h5 id="history_explanation_text"></h5>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col card" style="background-color: #F9FAFB;">
+                <div class="row">
+                    <div class="col">
+                        &nbsp;
+                        <!-- <button class="btn btn-light btn-lg disabled rounded"><svg fill="currentColor"><use xlink:href="#send"/></svg></button> -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col" style="padding-left:5%;">
+                        <h1>Have further questions?</h1>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col" style="padding-left:5%; padding-top:5%;">
+                        <blockquote class="blockquote">Just type in your questions in the message box below and our
+                            friendly course instructors will assist you.</blockquote>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col" style="padding-left:5%; padding-top:5%;">
+                        <input class="form-control" id="query_msg" placeholder="Type your queries here" />
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col">
+                        &nbsp;
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-center">
+                        <button class="btn btn-secondary" id="query_submit_btn">Contact instructor</button>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col">
+                        &nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="tab-pane-3" role="tabpanel" aria-labelledby="settings-tab" tabindex="2">
+            <div class="row">
+                <div class="col">
+                    <div class="row">
+                        <div class="col text-end">
+                            <button class="btn btn-dark save-button" id="save_settings"><svg fill="currentColor">
+                                    <use xlink:href="#floppy2" />
+                                </svg>Save</button>
+                        </div>
+                    </div>
+                    <div class="divpad"></div>
+                    <div class="divpad"></div>
+                    <!-- <div class="row">
+                        <div class="col text-start">
+                            <strong>Timer <svg><use xlink:href="#question-circle"/></svg></strong>
+                            <br/>
+                            Change the timer to your preference.        
+                        </div>
+                        <div class="col">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><svg><use xlink:href="#stopwatch"/></svg></span>
+                                <select class="form-select" id="timer_choice">
+                                    <option value="0">-- No timer --</option>
+                                {% for i in range(10,(60 + 10),10) %}
+                                    <option value="{{i}}" {% if (timer_select == i) %}selected{% endif %}>{{i}} Minutes</option>
+                                {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="divpad"></div>
+                        <hr/>
+                    </div>
+                    <div class="row">
+                        <div class="col text-start">
+                            <strong>Number of Questions <svg><use xlink:href="#question-circle"/></svg></strong>
+                            <br/>
+                            Customise the number of question items for your quiz (Number of questions per unit testing).    
+                        </div>
+                        <div class="col">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><svg><use xlink:href="#hash"/></svg></span>
+                                <select class="form-select" id="quiz_num">
+                                    {% for i in range(3,(15 + 1)) %}
+                                        <option value="{{i}}" {% if (quiz_number == i) %}selected{% endif %}>{{i}}</option>
+                                    {% endfor %}
+                                </select>
+                                <span class="input-group-text">question(s)</span>
+                            </div>
+                        </div>
+                        <div class="divpad"></div>
+                        <hr/>
+                    </div> -->
+                    <div class="row">
+                        <div class="col text-start">
+                            <strong>Maximum number of questions limit <svg>
+                                    <use xlink:href="#question-circle" />
+                                </svg></strong>
+                            <br />
+                            A total number of questions limit in quiz session
+                        </div>
+                        <div class="col">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><svg>
+                                        <use xlink:href="#hash" />
+                                    </svg></span>
+                                <select class="form-select" id="max_limit">
+                                    {% for i in range(10,(30 + 10),10) %}
+                                    <option value="{{i}}" {% if (max_limit==i) %}selected{% endif %}>{{i}}</option>
+                                    {% endfor %}
+                                </select>
+                                <span class="input-group-text">question(s)</span>
+                            </div>
+                        </div>
+                        <div class="divpad"></div>
+                        <hr />
+                    </div>
+                    <div class="row">
+                        <div class="col text-start">
+                            <strong>Configuration <svg>
+                                    <use xlink:href="#question-circle" />
+                                </svg></strong>
+                            <br />
+                            Choose the knowledge unit(s) that you want to practice or included in the quiz.
+                            <br />
+                            <br />
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="random_check" checked>
+                                <label class="form-check-label" for="random_check">
+                                    Random unit(s) instead of selecting by yourself (Put number of unit(s) to let system
+                                    random)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class=" mb-3">
+                                <div class="" id="random_box">
+                                    <input id="cell_num" class="form-control" type="number" value="" min="0"
+                                        max="100" />
+                                </div>
+                                <div class="d-none" id="select_box">
+                                    <div class="" id="cell_box"> <!-- add and remove-->
+
+                                    </div>
+                                    <div class="divpad"></div>
+                                    <div class="col text-start">
+                                        <button class="btn btn-primary" id="add_cell"><svg fill="currentColor">
+                                                <use xlink:href="#plus-lg" />
+                                            </svg>Add another</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="tab-pane-4" role="tabpanel" aria-labelledby="disclaimer-tab" tabindex="3">
+            <div class="row">
+                <div class="col">
+                    &nbsp;
+                </div>
+                <div class="col">
+                    <table class="table table-borderless">
+                        <tr>
+                            <td>
+                                <h3 id="attempt_disclaimer"></h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <h1><b>Disclaimer</b></h1>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="text-start" style="word-wrap: break-word; white-space: normal !important;"
+                                    id="disclaimer_text"></div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col"> <!-- info-->
+                    &nbsp;
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-center">
+                    <button class="btn btn-secondary" id="back_overview_btn"><svg fill="currentColor">
+                            <use xlink:href="#arrow-left" />
+                        </svg>Back</button>
+                    <button class="btn btn-light" id="back_setting_btn">Configure the quiz <svg fill="currentColor">
+                            <use xlink:href="#sliders" />
+                        </svg></button>
+                    <button class="btn btn-dark" id="start_quiz_btn">Start the quiz <svg fill="currentColor">
+                            <use xlink:href="#arrow-right" />
+                        </svg></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="d-none tab-content" id="quiz_page">
+    <hr />
+    <div class="row" id="quiz_alert_point">
+
+    </div>
+    <div class="row" style="height:75%">
+        <div style="width:10vw;">
+            <div class="col text-center">
+                <br />
+                <br />
+                <button class="btn disabled"><svg fill="currentColor">
+                        <use xlink:href="#stopwatch" />
+                    </svg><b><span id="span_timer">0:00</span></b> mins</button>
+            </div>
+        </div>
+        <div class="col">
+            <div class="row">
+                <b class="text-center">Answer history:</b>
+                <b class="text-end">Total question answered: <span id="progress_span"></span></b>
+                <div class="container-fluid text-center" id="answer_history">
+
+                </div>
+            </div>
+            <div class="row" style="padding:1%">
+                <br />
+            </div>
+            <div class="row " style="color:gray;">
+                <b>
+                    <div class="col text-center">
+                        <h4>Question <span id="question_number"></span></h4>
+                    </div>
+                </b>
+            </div>
+            <div class="row " style="color:dimgray;">
+                <b>
+                    <div class="col text-center" id="question_text">
+                    </div>
+                </b>
+            </div>
+            <div class="row" style="padding:1%">
+                <br />
+            </div>
+            <div class="row" style="color:dimgray;">
+                <label>
+                    <table class="table border table-hover" style="table-layout: fixed;">
+                        <td style="width:3%"><input name="answer_choice" type="radio" id="check_1"
+                                checkbox-role="choice_selector"></td>
+                        <td class="text-start">
+                            <div><b>Option A</b>&nbsp; &nbsp;<span class="fs-4" useFor="result_text"></span></div>
+                            <div class="text-start" style="word-wrap: break-word; white-space: normal !important;"
+                                id="answer_text_1"></div>
+                        </td>
+                    </table>
+                </label>
+            </div>
+            <div class="row" style="padding:0.5%">
+            </div>
+            <div class="row" style="color:dimgray;">
+                <label>
+                    <table class="table border table-hover" style="table-layout: fixed;">
+                        <td style="width:3%"><input name="answer_choice" type="radio" id="check_2"
+                                checkbox-role="choice_selector"></td>
+                        <td class="text-start">
+                            <div><b>Option B</b>&nbsp; &nbsp;<span class="fs-4" useFor="result_text"></span></div>
+                            <div class="text-start" style="word-wrap: break-word; white-space: normal !important;"
+                                id="answer_text_2"></div>
+                        </td>
+                    </table>
+                </label>
+            </div>
+            <div class="row" style="padding:0.5%">
+            </div>
+            <div class="row" style="color:dimgray;">
+                <label>
+                    <table class="table border table-hover" style="table-layout: fixed;">
+                        <td style="width:3%"><input name="answer_choice" type="radio" id="check_3"
+                                checkbox-role="choice_selector"></td>
+                        <td class="text-start">
+                            <div><b>Option C</b>&nbsp; &nbsp;<span class="fs-4" useFor="result_text"></span></div>
+                            <div class="text-start" style="word-wrap: break-word; white-space: normal !important;"
+                                id="answer_text_3"></div>
+                        </td>
+                    </table>
+                </label>
+            </div>
+            <div class="row" style="padding:0.5%">
+            </div>
+            <div class="row" style="color:dimgray;">
+                <label>
+                    <table class="table border table-hover" style="table-layout: fixed;">
+                        <td style="width:3%"><input name="answer_choice" type="radio" id="check_4"
+                                checkbox-role="choice_selector"></td>
+                        <td class="text-start">
+                            <div><b>Option D</b>&nbsp; &nbsp;<span class="fs-4" useFor="result_text"></span></div>
+                            <div class="text-start" style="word-wrap: break-word; white-space: normal !important;"
+                                id="answer_text_4"></div>
+                        </td>
+                    </table>
+                </label>
+            </div>
+            <div class="row" style="padding:1.0%">
+                <!-- <div class="col">
+                    &nbsp;
+                </div> -->
+                <div class="col text-center">
+                    <button class="btn btn-dark" id="idk_btn">I don't know</button>
+                    <button class="btn btn-successcustom" id="submit_btn">Submit</button>
+                </div>
+
+            </div>
+            <div class="fade" id="explanation_card">
+                <div class="row">
+                    <div class="col text-start">
+                        Result: <h3 id="result_text"></h3>
+                        <!-- &nbsp; -->
+                    </div>
+                    <!-- <div class="col text-end">
+                        <button class="btn btn-bluecustom" id="show_exp_btn" type="button" data-bs-toggle="collapse" data-bs-target="#explanation_box" aria-expanded="false" aria-controls="explanation_box">
+                            <i class="fas fa-eye"></i> Show explanation</button>
+                    </div> -->
+                </div>
+                <div class="row" style="padding-top:1%">
+                    <div class="col text-center">
+                        <div class="previously-collapse" id="explanation_box">
+                            <div class="card card-body">
+                                <table class="table table-borderless" style="table-layout: fixed;">
+                                    <tr>
+                                        <th class="text-start">
+                                            <h4>Explanation:</h4>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start"
+                                            style="word-wrap: break-word; white-space: normal !important; "
+                                            id="explanation_text">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                        </div>
+                        &nbsp;
+                        <div class="col text-end">
+                            <button class="btn btn-dark" id="next_question">Next <svg fill="currentColor">
+                                    <use xlink:href="#arrow-right" />
+                                </svg></button>
+                        </div>
+                        &nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="width:10%">
+            <div class="row">
+                <div class="col text-center">
+                    <br />
+                    <br />
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-center">
+                    <br />
+                    <br />
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
