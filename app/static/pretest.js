@@ -96,7 +96,7 @@ function getUserInfo() {
             }
           } else {
             // Redirect back
-            window.location.pathname = "/launch_2/" + launchId +"/";
+            window.location.pathname = "/";
 
           }
         } else {

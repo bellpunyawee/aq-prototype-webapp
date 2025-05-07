@@ -8,9 +8,7 @@ from ..model import *
 from ..globalclass import crypto as Crypto
 
 from flask import jsonify, request, session
-import hashlib, time, os, pprint
-from flask_caching import Cache
-
+import hashlib, time
 
 # Single quiz engine to optimize calling procedure
 GLOBAL_QUIZ_ENGINE = model_enginev2.AdaptiveQuiz()
@@ -23,10 +21,11 @@ def generateSessionID():
     return Crypto.CryptoLib.generate_sha256(str(time.time()))
 
 # Application start
-@app.route("/access/", methods=["POST"])
+@app.route("/login", methods=["POST"])
 def fn_login():
     if request.method == "POST":
         data = request.get_json()
+        print("Data________________", data)
         login_status = model_usercontrol.UserAuthentication(username=data['username'], password=data['password'])
         if ((session.get('user_id') is None)):
             if login_status.get_login_status() == True:
@@ -43,7 +42,6 @@ def fn_login():
                 else:
                     session.permanent = False
                 response = {"result":"success"}
-                
             else:
                 response = {"result":"fail", "status": "Username/Password is incorrect"}
         else:
@@ -55,9 +53,14 @@ def fn_login():
     else:
         response = {"result":"fail", "status": "Wrong method"}
 
-    print("USERID", session)
     print(response)
     return jsonify(response)
+
+@app.after_request
+def after_request_func(response):
+    print("Request method", request)
+    print("Session data after request:", session)
+    return response
 
 @app.route("/req_save_settings", methods=["POST"])
 def fn_req_save_settings():
@@ -768,7 +771,6 @@ def fn_submit_answer():
 
 @app.route("/req_get_total_cell", methods=["POST"])
 def fn_get_total_cell():
-    print("Requesting total cell")
     if request.method == "POST":
         if ((session.get('user_id') is not None)):
             login_status = model_usercontrol.UserAuthentication(login_state=1, session_id=session['session_id'], user_id=session['user_id'])
@@ -783,6 +785,7 @@ def fn_get_total_cell():
             response = {"result":"fail", "status": "No record on loggin in"}
     else:
         response = {"result":"fail", "status": "Wrong method"}
+
     return jsonify (response)
 
 @app.route("/req_upload_profile_picture", methods=["POST"])

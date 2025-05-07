@@ -121,10 +121,10 @@ class UserAuthentication():
         get_info = db_obj.perform_sql("select name from user_info where user_id="+str(self.__user_id), True)
         return get_info[0][0]
     
-    def get_canvas_id(self):
-        db_obj = DB_Object("USERINFO_DB")
-        get_info = db_obj.perform_sql("select canvas_id from user_info where user_id="+str(self.__user_id), True)
-        return get_info[0][0]
+    # def get_canvas_id(self):
+    #     db_obj = DB_Object("USERINFO_DB")
+    #     get_info = db_obj.perform_sql("select canvas_id from user_info where user_id="+str(self.__user_id), True)
+    #     return get_info[0][0]
 
     def get_user_id(self):
         return self.__user_id
@@ -145,11 +145,12 @@ Run
 
 """
 
-if __name__ == "__main__":
-    for i in range(1, 41):
-        student_id = f"s{i:03d}" # username can be an 'email'
-        password = "1234"  # Assuming the password is the same for all students
-        fullname = f"Student #{i}" # LTI assigns 'given_name' and 'family_name'
-        SystemAdminClass.registration(student_id, password, fullname)
+# if __name__ == "__main__":
+#     # SystemAdminClass.registration("test001", "1234", "test user")
+#     # for i in range(1, 41):
+#     #     student_id = f"s{i:03d}" # username can be an 'email'
+#     #     password = "1234"  # Assuming the password is the same for all students
+#     #     fullname = f"Student #{i}" # LTI assigns 'given_name' and 'family_name'
+#     #     SystemAdminClass.registration(student_id, password, fullname)
 
-    pass
+#     pass

@@ -4,10 +4,10 @@ $(document).ready(function () {
   responsiveTable();
   loginADQ();
   // comment out for automatically logging in
-  // $("#login_btn").click(function (event) {
-  //   event.preventDefault();
-  //   loginADQ();
-  // });
+  $("#login_btn").click(function (event) {
+    event.preventDefault();
+    loginADQ();
+  });
 
   $("#reset_pw_btn").click(function () {
     switchPage();
@@ -60,10 +60,10 @@ function loginADQ(state) {
     var this_password = $("#login_user_pw").val();
     this_password = btoa(this_password);
     var remember_me = $("#rememberme").is(":checked");
-    
+
     $.ajax({
       type: "POST",
-      url: "/access/" + launchId +"/",
+      url: "/login",
       data: JSON.stringify({
         username: this_username,
         password: this_password,
@@ -79,9 +79,6 @@ function loginADQ(state) {
             "Login successfully, reloading...",
             true
           );
-          // If you need to use the session data before redirecting
-          var sessionData = response.session;
-          console.log("Session Data: ", response.posttest_start);
           location.reload();
         } else {
           alertCreation("#login_alert_point", "danger", response.status);

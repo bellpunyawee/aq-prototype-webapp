@@ -497,7 +497,7 @@ function getUserInfo(afterReport = false) {
               }
             }
           } else {
-            window.location.pathname = "/pretest_start/" + launchId + "/";
+            window.location.pathname = "/pretest_start";
           }
         } else {
           alert(response.status);
@@ -577,32 +577,7 @@ function fetchCellTimes(rpath, cpath) {
   //   allCellIds.push(cellId);
   // });
 
-  // get times for all cells
-  $.ajax({
-    type: "POST",
-    url: "/req_get_cell_time",
-    data: JSON.stringify({ cell_ids: allCellIds }), // Pass all the cell IDs
-    contentType: "application/json; charset=utf-8",
-    success: function (response) {
-      if (response.result === "success") {
-        response.cell_list.forEach(function (cell) {
-          // Store the time for each cell in the cellTimes object
-          var cellId = String(cell[0]);
-          var time = parseFloat(cell[1]);
-          cellTimes[cellId] = time;
-        });
-
-        // Calculate and display the time upon loading page for the first time
-        calculateTotalTimeRecommendedPath(rpath);
-        calculateTotalTimeCurrentPath();
-      } else {
-        console.error("Failed to fetch cell times: " + response.status);
-      }
-    },
-    error: function () {
-      console.error("An error occurred while fetching cell times.");
-    },
-  });
+  
 }
 
 function calculateTotalTimeCurrentPath() {

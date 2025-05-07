@@ -28,19 +28,6 @@
     <!-- Scripts -->
     <!-- Your HTML content -->
 
-    <script type="text/javascript">
-      // Embedding Python variables into JavaScript
-      const sessionStart = "{{ session_start }}";
-      const sessionCookies = "{{ session }}"
-      const timerSelect = "{{ timer_select }}";
-      const quizNumber = "{{ quiz_number }}";
-      const maxLimit = "{{ max_limit }}";
-      const isDeepLinkLaunch = "{{ is_deep_link_launch }}";
-      const launchData = "{{ launch_data }}";
-      const launchId = "{{ launch_id }}";
-      const currUserName = "{{ curr_user_name }}";
-      const LtiUserName = "{{ username }}";
-    </script>
      
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -102,13 +89,13 @@
               >
             </li>
           </ul> -->
-          <!-- <div class="d-lg-flex col-lg-3 justify-content-lg-end">
-            <a href="/logout/{{ launch_id }}/"
+          <div class="d-lg-flex col-lg-3 justify-content-lg-end">
+            <a href="/logout"
               ><button class="btn btn-dark">
                 <i class="bi bi-box-arrow-right"></i> Logout
               </button></a
             >
-          </div> -->
+          </div>
         </div>
       </div>
     </nav>
@@ -170,40 +157,40 @@
           </h4>
           <div class="mb-3">
             <label for="username" class="form-label fw-bold"
-              ><i class="bi bi-person"></i> Canvas username authorization ... </label
+              ><i class="bi bi-person"></i> Username ... </label
             >
             <input
-              type="hidden"
+              type="text"
               id="login_user_id"
               class="form-control"
               placeholder="Enter your username"
-              value ="{{ username }}" 
+             
             />
           </div>
           <div class="mb-3">
             <label for="password" class="form-label fw-bold"
-              ><i class="bi bi-key"></i> Password authorization ...</label
+              ><i class="bi bi-key"></i> Password ...</label
             >
             <div class="input-group">
               <input
-                type="hidden"
+                type="password"
                 id="login_user_pw"
                 class="form-control"
                 placeholder="Enter your password"
-                value ="12345"
+                
               />
-              <!-- <button
+              <button
                 type="hidden"
                 class="btn btn-outline-secondary"
                 id="togglePassword"
               >
                 <i class="bi bi-eye"></i>
-              </button> -->
+              </button>
             </div>
           </div>
 
           <div class="col" id="login_alert_point"></div>
-          <!-- <div class="d-flex justify-content-between">
+          <div class="d-flex justify-content-between">
             <div class="form-check mb-3">
               <input
                 class="form-check-input"
@@ -220,7 +207,7 @@
                 >Forgot password</a
               >
             </div>
-          </div> -->
+          </div>
           <div class="d-flex justify-content-end">
             <button class="btn btn-dark mt-3" type="hidden" id="login_btn">
               Log in
