@@ -9,7 +9,7 @@ from flask import session
 def debug_mode_running(config):
     if sys.platform == "win32":
         ctypes.windll.kernel32.SetConsoleTitleW("Adaptive Quiz server - Debug mode")
-    app.run(ssl_context=('cert.pem', 'key.pem'),debug=True, host=config["DEBUG_HOST"], port=config["DEBUG_PORT"])
+    app.run(debug=True, host=config["DEBUG_HOST"], port=config["DEBUG_PORT"])
 
 def production_mode_running(config):
     if sys.platform == "win32":
