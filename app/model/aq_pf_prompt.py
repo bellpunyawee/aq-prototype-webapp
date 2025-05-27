@@ -4,49 +4,49 @@ from pinecone import Pinecone
 from datetime import datetime
 # import openai
 from openai import OpenAI
-from canvasapi import Canvas
+#from canvasapi import Canvas
 
 
 
 
-class CanvasAPI:
-    def __init__(self, api_url, api_key):
-        self.canvas = Canvas(api_url, api_key)
+# class CanvasAPI:
+#     def __init__(self, api_url, api_key):
+#         self.canvas = Canvas(api_url, api_key)
 
-    def create_conversation(self, recipients, subject, body, force_new=True, group_conversation=False, mode='sync'):
-        """
-        Create a new conversation or message in Canvas.
+#     def create_conversation(self, recipients, subject, body, force_new=True, group_conversation=False, mode='sync'):
+#         """
+#         Create a new conversation or message in Canvas.
 
-        :param recipients: List of recipient ids (strings).
-        :param subject: Subject of the message.
-        :param body: Body of the message.
-        :param force_new: Forces creation of a new conversation.
-        :param group_conversation: Set to True for group conversations.
-        :param mode: 'sync' or 'async' operation.
-        """
-        # Prepare the data for the POST request
-        conversation_data = {
-            'recipients': recipients,
-            'subject': subject,
-            'body': body,
-            'force_new': force_new,
-            'group_conversation': group_conversation,
-            'mode': mode
-        }
+#         :param recipients: List of recipient ids (strings).
+#         :param subject: Subject of the message.
+#         :param body: Body of the message.
+#         :param force_new: Forces creation of a new conversation.
+#         :param group_conversation: Set to True for group conversations.
+#         :param mode: 'sync' or 'async' operation.
+#         """
+#         # Prepare the data for the POST request
+#         conversation_data = {
+#             'recipients': recipients,
+#             'subject': subject,
+#             'body': body,
+#             'force_new': force_new,
+#             'group_conversation': group_conversation,
+#             'mode': mode
+#         }
 
-        # # base_url = 'https://nus-dev.instructure.com'
-        # base_url = 'https://canvas.nus.edu.sg'
-        # access_token = os.getenv('CANVAS_PROD_KEY')
-        # url =  f"{base_url}/api/v1/conversations"
+#         # # base_url = 'https://nus-dev.instructure.com'
+#         # base_url = 'https://canvas.nus.edu.sg'
+#         # access_token = os.getenv('CANVAS_PROD_KEY')
+#         # url =  f"{base_url}/api/v1/conversations"
     
-        # headers = {
-        # 'Authorization': f'Bearer {access_token}',
-        # 'Content-Type': 'application/json'
-        # }
+#         # headers = {
+#         # 'Authorization': f'Bearer {access_token}',
+#         # 'Content-Type': 'application/json'
+#         # }
 
-        # response = requests.post(url, json=conversation_data, headers=headers)
+#         # response = requests.post(url, json=conversation_data, headers=headers)
 
-        return self.canvas.create_conversation(**conversation_data)
+#         return self.canvas.create_conversation(**conversation_data)
 
 
 def call_gpt(input_text):
@@ -289,8 +289,8 @@ def process_feedback_for_all_students(merged_data, canvas_api, name):
         quiz_name = check_quiz_name(attempt, name)
         # Send the feedback via Canvas message API
         subject = f'{quiz_name} Personalised Feedback'
-        response = canvas_api.create_conversation([str(canvas_id)], subject, message_content)
-        print(f"Feedback sent to student {student_id} for attempt {attempt}: {response}")
+        # response = canvas_api.create_conversation([str(canvas_id)], subject, message_content)
+        # print(f"Feedback sent to student {student_id} for attempt {attempt}: {response}")
         return gpt_filename
 
 # with error handling
@@ -389,9 +389,9 @@ def main(excel_filename, canvas_map_path, name):
     # api_url = 'https://nus-dev.instructure.com'
     api_url = 'https://canvas.nus.edu.sg'
     load_dotenv()
-    api_key = os.getenv('CANVAS_API_KEY')
+    # api_key = os.getenv('CANVAS_API_KEY')
     # api_key = '' # Please fill in your own access token
-    canvas_api = CanvasAPI(api_url, api_key)
+    # canvas_api = CanvasAPI(api_url, api_key)
 
     # Example usage
     # Assuming merged_data is already loaded as a DataFrame
@@ -406,7 +406,7 @@ def main(excel_filename, canvas_map_path, name):
     merged_data.to_csv(save_path_2)
 
     # Example usage: assuming merged_data is available
-    gpt_feedback = process_feedback_for_all_students(merged_data, canvas_api, name)
+    gpt_feedback = process_feedback_for_all_students(merged_data, None, name) #canvas_api, name)
     return gpt_feedback
 
 

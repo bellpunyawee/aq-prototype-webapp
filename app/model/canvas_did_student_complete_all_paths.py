@@ -3,31 +3,31 @@ import requests
 from dotenv import load_dotenv
 
 load_dotenv()
-canvas_api_key = os.getenv('CANVAS_API_KEY')
-# canvas_api_key = os.getenv('canvas_api_key_to_create_overrides')
-base_url = 'https://canvas.nus.edu.sg/api/v1/courses'
+# canvas_api_key = os.getenv('CANVAS_API_KEY')
+# # canvas_api_key = os.getenv('canvas_api_key_to_create_overrides')
+# base_url = 'https://canvas.nus.edu.sg/api/v1/courses'
 
-headers = {
-    'Authorization': f'Bearer {canvas_api_key}'
-}
+# headers = {
+#     'Authorization': f'Bearer {canvas_api_key}'
+# }
 
 def get_all_pages(url):
     """Fetch all pages of a paginated Canvas API response."""
     items = []
-    while url:
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()
-        items.extend(response.json())
-        links = response.headers.get('Link', '')
-        url = None
-        for link in links.split(','):
-            if 'rel="next"' in link:
-                url = link[link.find("<")+1:link.find(">")]
+    # while url:
+    #     response = requests.get(url, headers=headers)
+    #     response.raise_for_status()
+    #     items.extend(response.json())
+    #     links = response.headers.get('Link', '')
+    #     url = None
+    #     for link in links.split(','):
+    #         if 'rel="next"' in link:
+    #             url = link[link.find("<")+1:link.find(">")]
     return items
 
 def get_grades(course_id, assignment_id):
-    url = f'{base_url}/{course_id}/assignments/{assignment_id}/submissions'
-    return get_all_pages(url)
+    # url = f'{base_url}/{course_id}/assignments/{assignment_id}/submissions'
+    return get_all_pages(None) #url)
 
 def check_all_assignments_completed(course_id, assignment_id_list, student_id):
     # """Check if a specific student has completed all assignments in the provided list."""

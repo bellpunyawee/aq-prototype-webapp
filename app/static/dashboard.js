@@ -141,11 +141,6 @@ $(document).ready(function () {
         '<i class="bi bi-clock"></i> Last updated: ' + formattedDate
       );
     }, 3000); // Simulated process time (3 seconds)
-    window.open(
-      "https://canvas.nus.edu.sg/courses/73869/modules",
-      "_blank",
-      "noopener,noreferrer"
-    );
   });*/
 
   var selectedAnswer = null; // Temporarily store the selected answer

@@ -207,31 +207,36 @@ def main():
     print("student_preferences", student_preferences)
 
     load_dotenv()
-    access_token_for_overrides = os.getenv('CANVAS_API_KEY')
+    # access_token_for_overrides = os.getenv('CANVAS_API_KEY')
 
     # The base URL for the Canvas instance
-    base_url = 'https://canvas.nus.edu.sg'
+    # base_url = 'https://canvas.nus.edu.sg'
 
     # Headers to include the access token
-    headers = {
-        'Authorization': f'Bearer {access_token_for_overrides}',
-        'Content-Type': 'application/json'
-    }
+    # headers = {
+    #     'Authorization': f'Bearer {access_token_for_overrides}',
+    #     'Content-Type': 'application/json'
+    # }
+    headers = {} # Placeholder
 
     initial_due_date = datetime.strptime(due_date, "%Y-%m-%dT%H:%M:%S%z")
 
     # Make the GET request to the API
-    url = f'{base_url}/api/v1/courses/{course_id}'
+    # url = f'{base_url}/api/v1/courses/{course_id}'
 
-    response = requests.get(url, headers=headers)
+    # response = requests.get(url, headers=headers)
+    response = None # Placeholder
 
     # Check the response status and print the course information
-    if response.status_code == 200:
+    if response is not None and response.status_code == 200:
         course_data = response.json()
         # print("course_data", course_data)
-    else:
+    elif response is not None:
         print(f"Failed to retrieve course data: {response.status_code}")
         print(response.text)
+    else:
+        print("Skipped retrieving course data due to API call being commented out.")
+
 
     # Load data from the database
     KU_dict = load_ku_dict_from_db()
@@ -242,30 +247,45 @@ def main():
 
     # Fetch and process quiz data, calculate familiarity, and create overrides
     def get_submission_questions(course_id, quiz_id, submission_id):
-        question_url = f'{base_url}/api/v1/quiz_submissions/{submission_id}/questions'
-        response = requests.get(question_url, headers=headers)
-        if response.status_code == 200:
+        # question_url = f'{base_url}/api/v1/quiz_submissions/{submission_id}/questions'
+        # response = requests.get(question_url, headers=headers)
+        response = None # Placeholder
+        if response is not None and response.status_code == 200:
             return response.json()
-        else:
+        elif response is not None:
             print(f'Error: Unable to fetch questions for submission {submission_id} (Status Code: {response.status_code})')
+            return None
+        else:
+            print(f'Skipped fetching questions for submission {submission_id} due to API call being commented out.')
             return None
 
     # Function to fetch quiz submissions and detailed question data for each student with pagination
     def fetch_quiz_submission_details():
         quiz_id = '44598'  # Replace with your quiz ID
-        url = f'{base_url}/api/v1/courses/{course_id}/quizzes/{quiz_id}/submissions'
+        # url = f'{base_url}/api/v1/courses/{course_id}/quizzes/{quiz_id}/submissions'
         page = 1
         per_page = 100 
 
         while True:
             params = {'page': page, 'per_page': per_page}
-            response = requests.get(url, headers=headers, params=params)
+            # response = requests.get(url, headers=headers, params=params)
+            response = None # Placeholder
+            submissions_data = {'quiz_submissions': []} # Default empty data
 
-            if response.status_code == 200:
+            if response is not None and response.status_code == 200:
                 submissions_data = response.json()
+            elif response is not None:
+                print(f'Error: Unable to fetch quiz submissions (Status Code: {response.status_code})')
+                print(response.text)  # Print error message if any
+                break # Exit if there's an error
+            else:
+                print(f'Skipped fetching quiz submissions page {page} due to API call being commented out.')
+                # No more pages if API is commented out
+                break
 
-                for submission in submissions_data['quiz_submissions']:
-                    canvas_user_id = submission['user_id']
+
+            for submission in submissions_data['quiz_submissions']:
+                canvas_user_id = submission['user_id']
                     if canvas_user_id in canvas_id_to_user_id:
                         user_id = canvas_id_to_user_id[canvas_user_id]
                         if user_id in user_ids:
@@ -288,14 +308,11 @@ def main():
                                 }
 
                 # Check if there's another page
-                if 'next' in response.links:
+                if response is not None and 'next' in response.links:
                     page += 1  # Go to the next page
                 else:
                     break  # No more pages, exit the loop
-            else:
-                print(f'Error: Unable to fetch quiz submissions (Status Code: {response.status_code})')
-                print(response.text)  # Print error message if any
-                break
+            # Removed the else block for response status code check as it's handled above
 
     # Fetch quiz submission details
     fetch_quiz_submission_details()
@@ -520,23 +537,27 @@ def main():
             }
 
             # Construct the full API endpoint URL for creating an assignment override
-            override_url = f'{base_url}/api/v1/courses/{course_id}/assignments/{assignment_id}/overrides'
+            # override_url = f'{base_url}/api/v1/courses/{course_id}/assignments/{assignment_id}/overrides'
 
             # Make the POST request to create the override
-            response = requests.post(override_url, headers=headers, data=json.dumps(override_data_template))
+            # response = requests.post(override_url, headers=headers, data=json.dumps(override_data_template))
+            post_response = None # Placeholder
 
             # Check the response status and print the result
-            if response.status_code == 201:
+            if post_response is not None and post_response.status_code == 201:
                 print(f"Successfully created an override for assignment {assignment_id}")
-                override_response = response.json()
+                override_response = post_response.json()
                 print("Override response:", override_response)
                 student_overrides[user_id].append({
                     "assignment_id": assignment_id,
                     "override_response": override_response
                 })
+            elif post_response is not None:
+                print(f"!!Failed to create override for assignment {assignment_id}: {post_response.status_code}")
+                print(post_response.text)
             else:
-                print(f"!!Failed to create override for assignment {assignment_id}: {response.status_code}")
-                print(response.text)
+                print(f"Skipped creating override for assignment {assignment_id} for student {user_id} due to API call being commented out.")
+
 
             # Increment the due date by one minute for the next override
             current_due_date += timedelta(minutes=1)
