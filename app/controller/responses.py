@@ -25,6 +25,8 @@ def generateSessionID():
 def fn_login():
     if request.method == "POST":
         data = request.get_json()
+        if not data or 'username' not in data or 'password' not in data:
+            return jsonify({'result': 'fail', 'status': 'Invalid login data received'}), 400
         print("Data________________", data)
         login_status = model_usercontrol.UserAuthentication(username=data['username'], password=data['password'])
         if ((session.get('user_id') is None)):
@@ -163,7 +165,7 @@ def fn_req_fetch_report_score():
             if login_status.get_login_status():
                 session['n_attempt'] = model_dbquery.UserDataQuery.get_latest_attempt(
                     session['user_id']) + 1
-                textbox_data = model_dbquery.GeneralDataQuery.get_textboxdata()
+                textbox_data = model_dbquery.GeneralDataQuery.get_textboxdata(user_id=session['user_id'], n_attempt=session['n_attempt'])
                 # print(session['n_attempt'])
                 if session['n_attempt'] > 1:
                     learner_ability, user_timestamp = model_dbquery.UserDataQuery.get_user_abilities(
@@ -272,7 +274,7 @@ def fn_req_fetch_report(): # Function goes two ways, either staying on dashboard
                 # ability
                 session['n_attempt'] = model_dbquery.UserDataQuery.get_latest_attempt(session['user_id']) + 1
                 # For future using
-                textbox_data = model_dbquery.GeneralDataQuery.get_textboxdata()
+                textbox_data = model_dbquery.GeneralDataQuery.get_textboxdata(user_id=session['user_id'], n_attempt=session['n_attempt'])
                 if (session['n_attempt'] > 1):
                     learner_ability, user_timestamp = model_dbquery.UserDataQuery.get_user_abilities(session['user_id'])
                     showing_ability = []
