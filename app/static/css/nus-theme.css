@@ -394,3 +394,160 @@ table.dataTable tbody tr.selected a {
     color: #6c757d !important; /* Softer text color */
     padding-top: 0.5em; /* Align better with pagination */
 }
+
+/* === Moved styles from header_template.css and dashboard.css === */
+
+/* Utilities (from header_template.css) */
+svg {
+  width: 20px;
+  height: 20px;
+  padding-right: 5px;
+}
+
+/* Components */
+
+/* Buttons (from header_template.css) */
+.btn-circle {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.428571429;
+  border-radius: 25px;
+}
+
+.btn-circle.btn-lg {
+  width: 50px;
+  height: 50px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 25px;
+}
+
+.btn-circle.btn-xl {
+  width: 70px;
+  height: 70px;
+  padding: 10px 16px;
+  font-size: 24px;
+  line-height: 1.33;
+  border-radius: 35px;
+}
+
+/* Loaders (from dashboard.css) */
+.lds-roller {
+  display: inline-block;
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+.lds-roller div {
+  animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  transform-origin: 10px 10px;
+}
+.lds-roller div:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  margin: -2px 0 0 -2px;
+}
+.lds-roller div:nth-child(1) {
+  animation-delay: -0.036s;
+}
+.lds-roller div:nth-child(1):after {
+  top: 15.6569px;
+  left: 15.6569px;
+}
+.lds-roller div:nth-child(2) {
+  animation-delay: -0.072s;
+}
+.lds-roller div:nth-child(2):after {
+  top: 16.9282px;
+  left: 14px;
+}
+.lds-roller div:nth-child(3) {
+  animation-delay: -0.108s;
+}
+.lds-roller div:nth-child(3):after {
+  top: 17.7274px;
+  left: 12.0706px;
+}
+.lds-roller div:nth-child(4) {
+  animation-delay: -0.144s;
+}
+.lds-roller div:nth-child(4):after {
+  top: 18px;
+  left: 10px;
+}
+.lds-roller div:nth-child(5) {
+  animation-delay: -0.18s;
+}
+.lds-roller div:nth-child(5):after {
+  top: 17.7274px;
+  left: 7.9294px;
+}
+.lds-roller div:nth-child(6) {
+  animation-delay: -0.216s;
+}
+.lds-roller div:nth-child(6):after {
+  top: 16.9282px;
+  left: 6px;
+}
+.lds-roller div:nth-child(7) {
+  animation-delay: -0.252s;
+}
+.lds-roller div:nth-child(7):after {
+  top: 15.6569px;
+  left: 4.3431px;
+}
+.lds-roller div:nth-child(8) {
+  animation-delay: -0.288s;
+}
+.lds-roller div:nth-child(8):after {
+  top: 14px;
+  left: 3.0718px;
+}
+@keyframes lds-roller {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Tab Navigation (from dashboard.css) */
+.tablinks {
+  background-color: #FFFFFF; /* White background for inactive tabs */
+  border: 1px solid transparent; /* Ensure no border by default, or a very light one e.g. #dee2e6 if needed */
+  outline: none;
+  cursor: pointer;
+  padding: 8px 14px;
+  margin: 0 5px 5px 0; /* Adjusted margin for better spacing when wrapping */
+  font-size: 1rem; /* Adjusted font size for consistency, 20px is quite large */
+  font-weight: 500;
+  color: #212529; /* Dark text for inactive tabs */
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  flex: 0 1 auto;
+  border-radius: 0.25rem; /* Standard border radius */
+}
+
+/* Active tab background and color */
+.tablinks.active {
+  background-color: #EF7C00; /* NUS Orange */
+  color: #FFFFFF; /* White text */
+  border-color: #EF7C00; /* Match background */
+  /* border-radius: 10px; */ /* Using 0.25rem from above for consistency */
+}
+
+/* Hover effect for inactive tabs */
+.tablinks:not(.active):hover {
+  color: #003D7C; /* NUS Blue text */
+  background-color: #e9ecef; /* Optional: very light background */
+  border-color: #dae0e5; /* Optional: light border */
+}

@@ -141,147 +141,78 @@
       <div id="body_app">{% block body_app %}{% endblock %}</div>
     </div>
     {% else %}
-    
-    <!-- Login Page -->
-    <div class="container d-flex align-items-center p-5">
-      <main class="form-signin w-75 m-auto">
-        <img
-          src="{{url_for('static', filename='images/cpfm.png')}}"
-          alt=""
-          class="mx-3 img-fluid"
-        />
-        <h2 class="display-6 py-3 fw-bold text-center" id="AQ_title">
-          Adaptive Quiz<br />
-          <small class="text-body-secondary">for Project Management</small>
-        </h2>
-        <!-- Sign In Form -->
-        <form id="normal_form">
-          <h4 class="h4 my-4 fw-bold">
-            <i class="bi bi-door-open-fill"></i> Login
-          </h4>
-          <div class="mb-3">
-            <label for="username" class="form-label fw-bold"
-              ><i class="bi bi-person"></i> Username ... </label
-            >
-            <input
-              type="text"
-              id="login_user_id"
-              class="form-control"
-              placeholder="Enter your username"
-             
-            />
-          </div>
-          <div class="mb-3">
-            <label for="password" class="form-label fw-bold"
-              ><i class="bi bi-key"></i> Password ...</label
-            >
-            <div class="input-group">
-              <input
-                type="password"
-                id="login_user_pw"
-                class="form-control"
-                placeholder="Enter your password"
-                
-              />
-              <button
-                type="hidden"
-                class="btn btn-outline-secondary"
-                id="togglePassword"
-              >
-                <i class="bi bi-eye"></i>
-              </button>
+    <!-- New Login Page Layout -->
+    <div class="login-page-container min-vh-100 d-flex flex-column"> <!-- Ensures it takes full viewport height -->
+        <div class="row g-0 flex-grow-1"> <!-- g-0 to remove gutters, flex-grow-1 to fill height -->
+            <!-- Branding Column (Left) -->
+            <div class="col-lg-6 d-none d-lg-flex flex-column justify-content-center align-items-center login-branding-column text-white p-5">
+                <img src="{{url_for('static', filename='images/cpfm.png')}}" alt="CPFM Logo" class="mb-4" style="max-width: 150px;" />
+                <h1 class="display-5 fw-bold text-center mb-3">Adaptive Quiz</h1>
+                <p class="fs-4 text-center">for Project Management</p>
             </div>
-          </div>
 
-          <div class="col" id="login_alert_point"></div>
-          <div class="d-flex justify-content-between">
-            <div class="form-check mb-3">
-              <input
-                class="form-check-input"
-                type="hidden"
-                value="remember-me"
-                id="rememberme"
-              />
-              <label class="form-check-label" for="rememberme"
-                >Remember me</label
-              >
+            <!-- Form Column (Right) -->
+            <div class="col-lg-6 d-flex flex-column justify-content-center align-items-center login-form-column p-4 p-md-5">
+                <main class="form-signin w-100" style="max-width: 450px;">
+                    <h2 class="h3 mb-4 fw-bold text-center">
+                        <i class="bi bi-door-open-fill"></i> Member Login
+                    </h2>
+
+                    <!-- Normal Login Form -->
+                    <form id="normal_form">
+                        <div class="mb-3">
+                            <label for="login_user_id" class="form-label fw-bold"><i class="bi bi-person"></i> Username</label>
+                            <input type="text" id="login_user_id" class="form-control form-control-lg" placeholder="Enter your username" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="login_user_pw" class="form-label fw-bold"><i class="bi bi-key"></i> Password</label>
+                            <div class="input-group">
+                                <input type="password" id="login_user_pw" class="form-control form-control-lg" placeholder="Enter your password" />
+                                <button type="button" class="btn btn-outline-secondary" id="togglePassword"><i class="bi bi-eye"></i></button>
+                            </div>
+                        </div>
+                        <div class="col" id="login_alert_point"></div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="form-check">
+                                <!-- ID changed to rememberme_login_page -->
+                                <input class="form-check-input" type="checkbox" value="remember-me" id="rememberme_login_page"> 
+                                <label class="form-check-label" for="rememberme_login_page">Remember me</label>
+                            </div>
+                            <a href="#" id="reset_pw_btn" class="fw-bold small">Forgot password?</a>
+                        </div>
+                        <div class="d-grid"> <!-- d-grid for full-width button -->
+                           <button class="btn btn-primary btn-lg" type="button" id="login_btn">Log In</button>
+                        </div>
+                        <p class="mt-5 mb-3 text-muted text-center small">&copy; 2024 Centre of Project and Facilities Management</p>
+                    </form>
+
+                    <!-- Forgot Password Form (remains d-none initially) -->
+                    <form id="forgot_form" class="d-none">
+                          <div class="mb-3">
+                              <label for="reset_user_id" class="form-label fw-bold"><i class="bi bi-person"></i> Username</label>
+                              <input type="text" id="reset_user_id" class="form-control form-control-lg" reset_type="credential" placeholder="Enter your username"/>
+                          </div>
+                          <div class="mb-3">
+                              <label for="reset_user_name" class="form-label fw-bold"><i class="bi bi-person-bounding-box"></i> Name</label>
+                              <input type="text" id="reset_user_name" class="form-control form-control-lg" reset_type="credential" placeholder="Enter your name"/>
+                          </div>
+                          <div class="mb-3">
+                              <label for="reset_user_pw_1" class="form-label fw-bold"><i class="bi bi-key"></i> New Password</label>
+                              <input type="password" id="reset_user_pw_1" class="form-control form-control-lg" reset_type="credential" placeholder="Enter your new password"/>
+                          </div>
+                          <div class="mb-3">
+                              <label for="confirm_password" class="form-label fw-bold"><i class="bi bi-key"></i> Confirm New Password</label>
+                              <input type="password" id="reset_user_pw_2" class="form-control form-control-lg" reset_type="credential" placeholder="Enter your new password again"/>
+                          </div>
+                          <div class="row" id="reset_alert_point"></div>
+                          <div class="d-flex justify-content-between mt-4">
+                              <button class="btn btn-secondary btn-lg" type="button" id="back_login_btn"><i class="bi bi-arrow-left"></i> Back</button>
+                              <button class="btn btn-primary btn-lg" type="button" id="submit_pw_btn">Submit <i class="bi bi-arrow-right"></i></button>
+                          </div>
+                    </form>
+                </main>
             </div>
-            <div class="mb-3">
-              <a href="#" id="reset_pw_btn" class="nav-link fw-bold"
-                >Forgot password</a
-              >
-            </div>
-          </div>
-          <div class="d-flex justify-content-end">
-            <button class="btn btn-dark mt-3" type="button" id="login_btn">
-              Log in
-            </button>
-          </div>
-          <p class="m-5 text-center">
-            &copy; 2024 Centre of Project and Facilities Management
-          </p>
-        </form>
-        <!-- Forgot Password Form -->
-        <form id="forgot_form" class="d-none">
-          <div class="mb-3">
-            <label for="username" class="form-label fw-bold"
-              ><i class="bi bi-person"></i> Username</label
-            >
-            <input
-              type="text"
-              id="reset_user_id"
-              class="form-control"
-              reset_type="credential"
-              placeholder="Enter your username"
-            />
-          </div>
-          <div class="mb-3">
-            <label for="name" class="form-label fw-bold"
-              ><i class="bi bi-person-bounding-box"></i> Name</label
-            >
-            <input
-              type="text"
-              id="reset_user_name"
-              class="form-control"
-              reset_type="credential"
-              placeholder="Enter your name"
-            />
-          </div>
-          <div class="mb-3">
-            <label for="password" class="form-label fw-bold"
-              ><i class="bi bi-key"></i> New Password</label
-            >
-            <input
-              type="password"
-              id="reset_user_pw_1"
-              class="form-control"
-              reset_type="credential"
-              placeholder="Enter your new password"
-            />
-          </div>
-          <div class="mb-3">
-            <label for="confirm_password" class="form-label fw-bold"
-              ><i class="bi bi-key"></i> Confirm New Password</label
-            >
-            <input
-              type="password"
-              id="reset_user_pw_2"
-              class="form-control"
-              reset_type="credential"
-              placeholder="Enter your new password again"
-            />
-          </div>
-          <div class="row" id="reset_alert_point"></div>
-          <div class="d-flex justify-content-between">
-            <button class="btn btn-dark mt-3" type="submit" id="back_login_btn">
-              <i class="bi bi-arrow-left"></i>&nbsp;Back
-            </button>
-            <button class="btn btn-dark mt-3" type="submit" id="submit_pw_btn">
-              Submit&nbsp;<i class="bi bi-arrow-right"></i>
-            </button>
-          </div>
-        </form>
-      </main>
+        </div>
     </div>
   </body>
   {% endif %}

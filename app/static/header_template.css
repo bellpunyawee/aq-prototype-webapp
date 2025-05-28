@@ -12,40 +12,6 @@
   padding-top: 1%;
 }
 
-svg {
-  width: 20px;
-  height: 20px;
-  padding-right: 5px;
-}
-
-.btn-circle {
-  width: 50px;
-  height: 50px;
-  text-align: center;
-  padding: 10px 16px;
-  font-size: 18px;
-  line-height: 1.428571429;
-  border-radius: 25px;
-}
-
-.btn-circle.btn-lg {
-  width: 50px;
-  height: 50px;
-  padding: 10px 16px;
-  font-size: 18px;
-  line-height: 1.33;
-  border-radius: 25px;
-}
-
-.btn-circle.btn-xl {
-  width: 70px;
-  height: 70px;
-  padding: 10px 16px;
-  font-size: 24px;
-  line-height: 1.33;
-  border-radius: 35px;
-}
-
 .btn-dangercustom {
   --bs-btn-color: #fff;
   --bs-btn-bg: #d92d20;
@@ -97,11 +63,8 @@ svg {
   --bs-btn-disabled-border-color: #0056b3;
 }
 
-.btn-primary {
-  background-color: #003d7c;
-  border-color: #003d7c;
-}
-
+/* Old login container styles are now hidden by the new CSS below */
+/*
 .login-container-wrapper {
   display: flex;
   flex-direction: column;
@@ -113,8 +76,58 @@ svg {
 #login-container {
   width: 100%;
   padding: 20px;
-  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
   background: #fff;
   border-radius: 8px;
-  margin: 0 auto; /* Keeps it horizontally centered */
+  margin: 0 auto; 
 }
+*/
+
+/* New Login Page Styles */
+.login-page-container {
+    /* Base container - already flex and min-vh-100 from Bootstrap classes */
+}
+
+.login-branding-column {
+    background-color: #003D7C; /* NUS Blue background */
+    /* d-none d-lg-flex is used to hide on small screens and show as flex on large */
+}
+
+.login-form-column {
+    background-color: #FFFFFF; /* White background for the form area */
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) { /* Below lg breakpoint */
+    .login-branding-column {
+        /* On smaller screens, the branding column is hidden by d-none d-lg-flex */
+        /* If you want it to stack, you'd remove d-none and adjust flex direction on login-page-container's row */
+        /* For this iteration, hiding it is simpler. Or make it display:block and give it less height. */
+        /* For stacking: remove d-none d-lg-flex from branding, add flex-column to the .row parent on mobile */
+        /* However, the current HTML structure with d-none d-lg-flex on branding column will hide it on <lg screens */
+        /* And the form column will take full width (col-lg-6 becomes col-12 effectively) */
+         /* padding-top: 3rem !important; */ /* Add padding when branding is hidden and form is top - covered by p-4/p-md-5 on form column */
+         /* padding-bottom: 3rem !important; */
+    }
+    /* Ensure form column takes up space and is scrollable if content overflows on small screens */
+    .login-form-column {
+        min-height: 100vh; /* Ensure it can take full height if branding is hidden */
+        overflow-y: auto; /* Allow scrolling if form content is too tall */
+    }
+    .login-page-container .row {
+        align-items: flex-start; /* Allow form to not be centered vertically on mobile if content is long */
+    }
+}
+
+ /* Adjust form controls for a slightly larger, cleaner look if desired */
+ .form-signin .form-control-lg {
+     min-height: calc(1.5em + 1rem + 2px); /* Taller inputs */
+     font-size: 1rem; /* Adjust if needed */
+ }
+ .form-signin .btn-lg {
+     padding: 0.75rem 1rem; /* Taller buttons */
+     font-size: 1rem;
+ }
+
+/* Remove or adjust old login container styles if they conflict */
+/* .login-container-wrapper, #login-container might be redundant now */
+.login-container-wrapper { display: none !important; } /* Hide old wrapper */

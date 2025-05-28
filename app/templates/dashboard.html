@@ -39,13 +39,23 @@
 </div>
 <!-- Header Card -->
 <div class="container mx-auto">
-    <div class="row p-3" id="header-text">
-        <div class="col py-2 px-4" id="welcome-text">
-            <h1 class="display-5 fw-bold text-body-emphasis">Adaptive Quiz</h1>
-            <h2 class="fs-3 fw-bold text-body-secondary mb-3">PM5101 PROJECT MANAGEMENT</h2>
-            <p class="fs-5"><i class="bi bi-person-vcard-fill"></i> Welcome back, <strong id="username_text"></strong>
-            </p>
-            <p>Here is an overview of your progress and performance:</p>
+    <div class="row p-0" id="header-text"> <!-- Removed p-3 from row, will control with inner div -->
+        <div class="col py-0 px-0"> <!-- Removed py-2 px-4 from col -->
+            <div class="dashboard-hero-header bg-light p-4 p-md-5 mb-4 rounded"> <!-- New wrapper -->
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h1 class="display-6 fw-bold text-primary mb-2">PM5101 PROJECT MANAGEMENT</h1> <!-- NUS Blue for course -->
+                        <p class="fs-4 text-muted">Adaptive Quiz Platform</p>
+                        <hr class="my-4">
+                        <p class="fs-5 fw-semibold"><i class="bi bi-person-circle me-2"></i>Welcome back, <strong id="username_text">[username]</strong></p> <!-- Username will be filled by JS -->
+                        <p class="text-body-secondary">Here is an overview of your progress and performance:</p>
+                    </div>
+                    <div class="col-md-4 text-center d-none d-md-block">
+                        <!-- Optional: Placeholder for an icon or illustration if desired later -->
+                        <i class="bi bi-bar-chart-line-fill text-primary" style="font-size: 6rem; opacity: 0.5;"></i>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
