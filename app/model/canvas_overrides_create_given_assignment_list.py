@@ -7,15 +7,15 @@ from datetime import datetime, timedelta
 # Load environment variables from .env file (including API key)
 load_dotenv()
 
-canvas_api_key = os.getenv('CANVAS_API_KEY')
-# canvas_api_key = os.getenv('canvas_api_key_to_create_overrides')
-BASE_URL = 'https://canvas.nus.edu.sg'
+# canvas_api_key = os.getenv('CANVAS_API_KEY')
+# # canvas_api_key = os.getenv('canvas_api_key_to_create_overrides')
+# BASE_URL = 'https://canvas.nus.edu.sg'
 
-# Set up headers for API requests
-HEADERS = {
-    'Authorization': f'Bearer {canvas_api_key}',
-    'Content-Type': 'application/json'
-}
+# # Set up headers for API requests
+# HEADERS = {
+#     'Authorization': f'Bearer {canvas_api_key}',
+#     'Content-Type': 'application/json'
+# }
 
 def create_assignment_given_assignment_list(course_id, assignment_ids, student_ids, unlock_at=None, lock_at=None, due_at=None, increment_minutes=0):
     """
@@ -36,11 +36,11 @@ def create_assignment_given_assignment_list(course_id, assignment_ids, student_i
     # Check course data to confirm valid course
     # course_url = f'{BASE_URL}/api/v1/courses/{course_id}'
     # response = requests.get(course_url, headers=HEADERS)
-    # if response.status_code != 200:
+    # if response is not None and response.status_code != 200:
     #     print(f"Failed to retrieve course data: {response.status_code}")
     #     print(response.text)
     #     return
-    # else:
+    # elif response is not None:
     #     course_data = response.json()
     #     print("Course data:", course_data)
     
@@ -63,17 +63,20 @@ def create_assignment_given_assignment_list(course_id, assignment_ids, student_i
             }
 
             # API endpoint for creating an assignment override
-            override_url = f'{BASE_URL}/api/v1/courses/{course_id}/assignments/{assignment_id}/overrides'
+            # override_url = f'{BASE_URL}/api/v1/courses/{course_id}/assignments/{assignment_id}/overrides'
 
             # POST request to create override
-            response = requests.post(override_url, headers=HEADERS, data=json.dumps(override_data_template))
+            # response = requests.post(override_url, headers=HEADERS, data=json.dumps(override_data_template))
+            response = None # Placeholder
 
-            if response.status_code == 201:
+            if response is not None and response.status_code == 201:
                 print(f"Successfully created an override for assignment {assignment_id} for student {student_id}")
                 print("Override response:", response.json())
-            else:
+            elif response is not None:
                 print(f"Failed to create override for assignment {assignment_id} for student {student_id}: {response.status_code}")
                 print(response.text)
+            else:
+                print(f"Skipped creating override for assignment {assignment_id} for student {student_id} due to API call being commented out.")
 
             # Increment the due date by the specified number of minutes if applicable
             if current_due_date and increment_minutes:

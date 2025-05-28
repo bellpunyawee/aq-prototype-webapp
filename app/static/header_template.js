@@ -2,7 +2,7 @@
 $(document).ready(function () {
   loadLogo();
   responsiveTable();
-  loginADQ();
+  // loginADQ();
   // comment out for automatically logging in
   $("#login_btn").click(function (event) {
     event.preventDefault();
@@ -58,6 +58,9 @@ function loginADQ(state) {
   function thisAjax() {
     var this_username = $("#login_user_id").val();
     var this_password = $("#login_user_pw").val();
+    console.log('Attempting to log in...');
+    console.log('Username field value:', $('#login_user_id').val());
+    console.log('Password field value (pre-btoa):', $('#login_user_pw').val());
     this_password = btoa(this_password);
     var remember_me = $("#rememberme").is(":checked");
 

@@ -96,7 +96,7 @@ function getUserInfo() {
             }
           } else {
             // Redirect back
-            window.location.pathname = "/launch_3/" + launchId +"/";
+            // window.location.pathname = "/launch_3/" + launchId +"/";
 
           }
         } else {
@@ -199,7 +199,7 @@ function fetchQuestion(fetch_time_out = false) {
                 "Pretest completed, redirect back to homepage",
                 true
               );
-              window.location.pathname = "/launch_3/" + launchId +"/"; // New Page for QE2 : Direct learners to blank page after completed pre-quiz
+              // window.location.pathname = "/launch_3/" + launchId +"/"; // New Page for QE2 : Direct learners to blank page after completed pre-quiz
             } else {
               startQuiz();
             }

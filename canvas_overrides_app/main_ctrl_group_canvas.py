@@ -8,10 +8,10 @@ import traceback
 import sys
 
 load_dotenv()
-access_token = os.getenv('CANVAS_API_KEY')
+# access_token = os.getenv('CANVAS_API_KEY')
 
 # The base URL for the Canvas instance
-base_url = 'https://canvas.nus.edu.sg'
+# base_url = 'https://canvas.nus.edu.sg'
 
 # The specific course ID, quiz ID, and assignment IDs you want to access
 course_id = '73870'
@@ -32,10 +32,11 @@ students_ids = load_students_to_process()
 
 
 # Headers to include the access token
-headers = {
-    'Authorization': f'Bearer {access_token}',
-    'Content-Type': 'application/json'
-}
+# headers = {
+#     'Authorization': f'Bearer {access_token}',
+#     'Content-Type': 'application/json'
+# }
+headers = {} # Placeholder
 
 # Initialize the due date for the first override
 initial_due_date = datetime.strptime("2024-12-31T00:01:00+0800", "%Y-%m-%dT%H:%M:%S%z")
@@ -72,10 +73,11 @@ def save_processed_students(processed_students, quiz_type):
 
 # Function to check if a student has completed the quiz
 def fetch_quiz_submission_details(student_id):
-    url = f'{base_url}/api/v1/courses/{course_id}/quizzes/{quiz_id}/submissions'
-    params = {'per_page': 100}
-    response = requests.get(url, headers=headers, params=params)
-    if response.status_code == 200:
+    # url = f'{base_url}/api/v1/courses/{course_id}/quizzes/{quiz_id}/submissions'
+    # params = {'per_page': 100}
+    # response = requests.get(url, headers=headers, params=params)
+    response = None # Placeholder
+    if response is not None and response.status_code == 200:
         submissions_data = response.json()
         for submission in submissions_data['quiz_submissions']:
             if submission['user_id'] == student_id:
@@ -86,9 +88,12 @@ def fetch_quiz_submission_details(student_id):
                 else:
                     print(f"Student ID {student_id} has not completed the quiz. Skipping...")
                     return False
-    else:
+    elif response is not None:
         print(f"Error fetching quiz submissions for student {student_id}: {response.status_code}")
         print(response.text)
+        return False
+    else:
+        print(f"Skipped fetching quiz submission details for student {student_id} due to API call being commented out.")
         return False
 
 # Function to apply assignment overrides
@@ -125,19 +130,23 @@ def apply_assignment_overrides():
                 }
 
                 # Construct the full API endpoint URL for creating an assignment override
-                override_url = f'{base_url}/api/v1/courses/{course_id}/assignments/{assignment_id}/overrides'
+                # override_url = f'{base_url}/api/v1/courses/{course_id}/assignments/{assignment_id}/overrides'
 
                 # Make the POST request to create the override
-                response = requests.post(override_url, headers=headers, data=json.dumps(override_data_template))
+                # response = requests.post(override_url, headers=headers, data=json.dumps(override_data_template))
+                post_response = None # Placeholder
 
                 # Check the response status and print the result
-                if response.status_code == 201:
+                if post_response is not None and post_response.status_code == 201:
                     print(f"Successfully created an override for assignment {assignment_id} for student {student_id}")
-                    override_response = response.json()
+                    override_response = post_response.json()
                     print("Override response:", override_response)
+                elif post_response is not None:
+                    print(f"Failed to create override for assignment {assignment_id} for student {student_id}: {post_response.status_code}")
+                    print(post_response.text)
                 else:
-                    print(f"Failed to create override for assignment {assignment_id} for student {student_id}: {response.status_code}")
-                    print(response.text)
+                    print(f"Skipped creating override for assignment {assignment_id} for student {student_id} due to API call being commented out.")
+
 
                 # Increment the due date by one minute for the next assignment
                 current_due_date += timedelta(minutes=1)

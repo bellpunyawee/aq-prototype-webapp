@@ -200,7 +200,7 @@ function fetchQuestion(fetch_time_out = false) {
                 true
               );
               loading(true);
-              window.location.pathname = "/launch_2/" + launchId +"/"; // New Page for QE2 : Direct learners to blank page after completed pre-quiz
+              // window.location.pathname = "/launch_2/" + launchId +"/"; // New Page for QE2 : Direct learners to blank page after completed pre-quiz
             } else {
               startQuiz();
             }
