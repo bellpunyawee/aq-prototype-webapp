@@ -28,14 +28,11 @@
 .attempt-chart-container {
   padding: 5px;
   margin: 0.5%;
-  border: 1px solid #e0e0e0;
-  border-radius: 5px;
+  border: 1px solid #dee2e6; /* Updated to theme light grey */
+  border-radius: 0.375rem; /* Updated to theme radius */
 }
 
-.save-button {
-  background-color: #003d7c;
-  border-color: #003d7c;
-}
+/* .save-button rule removed as .btn-primary from nus-theme.css should be used */
 
 .custom-width {
   max-width: 1800px;
@@ -46,6 +43,10 @@
   font-size: 1.5rem;
   margin-left: auto;
   cursor: pointer;
+  transition: color 0.2s ease-in-out; /* Added for smooth hover */
+}
+.toggle-icon:hover {
+  color: #003D7C; /* NUS Blue */
 }
 /* Default icon when expanded (minus sign) */
 .toggle-icon::before {
@@ -56,136 +57,167 @@
   content: "\002B"; /* Unicode for plus sign */
 }
 
-#abort_btn:hover {
-  transform: scale(1.02); /* Slight scaling on hover */
-  box-shadow: 0 8px 16px rgba(206, 124, 103, 0.342); /* Deeper shadow on hover */
-}
+/* Removed specific button hover box-shadows for #abort_btn, #submit_btn, #idk_btn. */
+/* #next_question hover is now specifically themed. */
+/* Standard hover effects will come from nus-theme.css or generic .btn classes for others. */
 
-#submit_btn:hover {
-  transform: scale(1.02); /* Slight scaling on hover */
-  box-shadow: 0 8px 16px rgba(54, 190, 83, 0.3); /* Deeper shadow on hover */
+/* Custom hover for #next_question */
+#next_question:hover,
+#next_question:focus { /* Assuming #next_question is a .btn, inherits .btn:focus-visible from theme */
+  background-color: #003D7C; /* NUS Blue */
+  color: #FFFFFF;
+  border-color: #003D7C; /* Ensure border matches */
+  /* transform: scale(1.02); */ /* This should be on the base #next_question if still desired */
 }
+/* If transform is desired, it should be on the base selector, not just hover/focus */
+/* Example: */
+/* #next_question { transform: scale(1); transition: transform 0.1s ease-in-out; } */
+/* #next_question:hover { transform: scale(1.02); } */
 
-#idk_btn:hover {
-  transform: scale(1.02); /* Slight scaling on hover */
-  box-shadow: 0 8px 16px rgba(151, 152, 156, 0.3); /* Deeper shadow on hover */
-}
-
-#next_question:hover {
-  transform: scale(1.02); /* Slight scaling on hover */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Deeper shadow on hover */
-}
 
 /* Personalised Learning Path */
 
 /* Temporarily not used as disclaimer is skipped during QE2 in AQ */
+/* Styling for #disclaimer_btn to match general button theming if it were to be used as a primary button */
 #disclaimer_btn {
-  color: #003d7c; /* Initial text color */
-  background-color: transparent; /* No background by default */
-  border-color: #003d7c; /* Set border color */
+  background-color: #003D7C;
+  color: #FFFFFF;
+  border-color: #003D7C;
+  /* transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out; */ /* From Bootstrap */
 }
 
 #disclaimer_btn:hover {
-  background-color: #003d7c; /* Change background color on hover */
-  color: white; /* Change text color to white on hover */
-  border-color: #003d7c; /* Keep border color the same */
-  transform: scale(1.02); /* Slight scaling on hover */
-  box-shadow: 0 8px 16px #b0d9f6;
+  background-color: #002c5a;
+  color: #FFFFFF;
+  border-color: #002c5a;
+  /* transform: scale(1.02); */ /* Preserving existing transform if desired */
+  /* box-shadow: 0 8px 16px rgba(0, 44, 90, 0.2); */ /* Example theme-aligned shadow */
 }
 
 #disclaimer_btn i {
-  color: #003d7c; /* Icon color */
+  color: #FFFFFF;
 }
 
-#disclaimer_btn:hover i {
-  color: white; /* Change icon color to white on hover */
-}
+/* #disclaimer_btn:hover i should implicitly be white if text is white */
 
 #start_quiz_btn_QE2_OG_disclaimer {
-  color: #003d7c; /* Initial text color */
-  background-color: transparent; /* No background by default */
-  border-color: #003d7c; /* Set border color */
+  background-color: #003D7C;
+  color: #FFFFFF;
+  border-color: #003D7C; /* Match background */
+  /* transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out; */
 }
 
 #start_quiz_btn_QE2_OG_disclaimer:hover {
-  background-color: #003d7c; /* Change background color on hover */
-  color: white; /* Change text color to white on hover */
-  border-color: #003d7c; /* Keep border color the same */
-  transform: scale(1.02); /* Slight scaling on hover */
-  box-shadow: 0 8px 16px #b0d9f6;
+  background-color: #002c5a;
+  color: #FFFFFF;
+  border-color: #002c5a; /* Match background */
+  /* transform: scale(1.02); */ /* Preserve if needed */
+  /* box-shadow: 0 8px 16px rgba(0, 44, 90, 0.2); */ /* Example theme-aligned shadow */
 }
 
 #start_quiz_btn_QE2_OG_disclaimer i {
-  color: #003d7c; /* Icon color */
+  color: #FFFFFF;
 }
-
-#start_quiz_btn_QE2_OG_disclaimer:hover i {
-  color: white; /* Change icon color to white on hover */
-}
+/* #start_quiz_btn_QE2_OG_disclaimer:hover i implicitly white */
 
 #start_learning_btn {
-  color: #003d7c; /* Initial text color */
-  background-color: transparent; /* No background initially */
-  border-color: #003d7c; /* Border color same as text */
+  background-color: #003D7C;
+  color: #FFFFFF;
+  border-color: #003D7C; /* Match background */
+  /* transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out; */
 }
 
 #start_learning_btn:hover {
-  background-color: #003d7c; /* Change background on hover */
-  color: white; /* Change text to white on hover */
-  border-color: #003d7c; /* Keep the same border color */
+  background-color: #002c5a;
+  color: #FFFFFF;
+  border-color: #002c5a; /* Match background */
+  /* transform: scale(1.02); */ /* Preserve if needed */
 }
 
 #start_learning_btn i {
-  color: #003d7c; /* Icon color same as text */
+  color: #FFFFFF;
 }
-
-#start_learning_btn:hover i {
-  color: white; /* Change icon to white on hover */
-}
+/* #start_learning_btn:hover i implicitly white */
 
 #path-list li {
   width: 100%;
-  margin: 0 0 3px;
-  background-color: #003d7c;
-  border-radius: 8px;
-  padding: 7px;
+  margin: 0 0 0.25rem; /* Consistent margin */
+  background-color: #003d7c; /* NUS Blue */
+  border-radius: 0.375rem; /* Theme border-radius */
+  padding: 0.5rem 0.75rem; /* Adjusted padding */
   text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 61, 124, 0.3);
+  box-shadow: 0 4px 8px rgba(0, 61, 124, 0.2); /* Softer, theme-aligned shadow */
   color: #ffffff;
   font-weight: bold;
-  cursor: move; /* Shows the user it's draggable */
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: move;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+#path-list li:hover {
+  background-color: #002c5a; /* Darker NUS Blue */
+  transform: scale(1.02);
+  box-shadow: 0 8px 16px rgba(0, 44, 90, 0.3); /* Adjusted shadow color */
 }
 
 #full-list li {
   width: 100%;
-  margin: 0 0 3px;
-  background-color: #a9a9a9;
-  border-radius: 8px;
-  padding: 7px;
+  margin: 0 0 0.25rem; /* Consistent margin */
+  background-color: #FFFFFF; /* White background */
+  border: 1px solid #dee2e6; /* Light grey border */
+  border-radius: 0.375rem; /* Theme border-radius */
+  padding: 0.5rem 0.75rem; /* Adjusted padding */
   text-align: center;
-  box-shadow: 0 4px 8px rgba(169, 169, 169, 0.4);
-  color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+  color: #212529; /* Dark text */
   font-weight: bold;
-  cursor: move; /* Shows the user it's draggable */
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: move;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
 }
 
 #full-list li:hover {
-  transform: scale(1.02); /* Slight scaling on hover */
-  box-shadow: 0 8px 16px #888888; /* Deeper shadow on hover */
+  background-color: #e9ecef; /* Slightly darker grey */
+  border-color: #dae0e5; /* Matching border color */
+  transform: scale(1.02);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Slightly more prominent shadow */
 }
 
-#full-list nav ul {
-  height: 500px;
+#full-list nav ul { /* This seems to be a typo, nav should not be inside li. Assuming it's a container for the list */
+  height: 500px; /* Or make it dynamic */
   overflow: hidden;
   overflow-y: scroll;
 }
 
-#path-list li:hover {
-  transform: scale(1.02); /* Slight scaling on hover */
-  box-shadow: 0 8px 16px #00509e; /* Deeper shadow on hover */
+/* #path-list li:hover is defined above */
+/* #path-list li:hover box-shadow was #00509e, changed to rgba(0, 44, 90, 0.3) */
+
+/* Styling for .btn-dark elements used as dashboard tabs */
+/* Assuming they are inside a container like .dashboard-tabs-container */
+.dashboard-tabs-container .btn-dark {
+    /* Default .btn-dark styles from Bootstrap/nus-theme apply */
+    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, color 0.15s ease-in-out;
 }
+
+.dashboard-tabs-container .btn-dark:hover,
+.dashboard-tabs-container .btn-dark:focus {
+    color: #003D7C; /* NUS Blue text */
+    background-color: #e6f0ff; /* Light NUS Blue background */
+    border-color: #b8d4ef; /* Matching light blue border */
+}
+
+.dashboard-tabs-container .btn-dark.active {
+    background-color: #EF7C00; /* NUS Orange */
+    color: #FFFFFF;
+    border-color: #EF7C00;
+}
+
+.dashboard-tabs-container .btn-dark.active:hover,
+.dashboard-tabs-container .btn-dark.active:focus {
+    background-color: #d66a00; /* Darker NUS Orange for hover/focus on active tab */
+    color: #FFFFFF;
+    border-color: #d66a00; /* Darker NUS Orange border */
+}
+
+
 #path-list ul,
 #full-list ul {
   padding: 5px;
@@ -203,17 +235,24 @@
 }
 
 .option-hover:hover {
-  background-color: #a7c7e7; /* Light background on hover */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow on hover */
-  cursor: pointer; /* Cursor change to indicate clickable */
+  background-color: #f8f9fa; /* Light grey background on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Softer shadow for consistency */
+  border: 1px solid #EF7C00; /* NUS Orange border */
+  cursor: pointer;
 }
 
-.form-check-input:checked ~ label {
-  background-color: #fbfdff;
-  color: rgb(0, 0, 0);
-  padding: 10px;
-  border-radius: 5px;
+/* Assuming label has .option-hover class for selected state */
+.form-check-input:checked ~ label.option-hover, 
+.form-check-input:checked ~ .option-hover { /* Covering cases where label is or contains .option-hover */
+  background-color: #cfe2f3; /* light NUS Blue */
+  border-color: #003D7C; /* NUS Blue */
+  color: #002245; /* darker NUS Blue text */
+  /* padding: 10px; */ /* Keep padding if it was intentional for selected state, or manage within .option-hover */
+  /* border-radius: 5px; */ /* Keep radius if intentional, or manage within .option-hover */
 }
+/* Fallback if the label itself is not .option-hover but a child is. This is less ideal. */
+/* .form-check-input:checked ~ label .option-hover { ... } */
+
 
 /* Increase toast size */
 .larger-toast {
@@ -320,30 +359,41 @@
 /* Tab Answer History */
 .tab {
   overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1;
+  border: 1px solid #dee2e6; /* Updated border color */
+  background-color: #f8f9fa; /* Updated background color */
 }
+/* These .tab button styles seem to be for a different tab component, not .tablinks */
+/* If they are used, they should be themed. If not, they could be removed. */
+/* For now, I will leave them but comment that they might need review. */
+/* Potential review needed for .tab button styling if this component is still in use */
 .tab button {
-  background-color: inherit;
+  background-color: inherit; /* Or #f8f9fa for consistency */
   float: left;
-  border: none;
+  border: none; /* Or 1px solid #dee2e6 */
   outline: none;
   cursor: pointer;
   padding: 14px 16px;
   transition: 0.3s;
+  color: #212529; /* Default text color */
 }
-.tab button:hover {
-  background-color: #ddd;
+.tab button:not(.active):hover { /* Specific to non-active tabs */
+  background-color: #e9ecef; /* Light grey hover */
+  color: #003D7C; /* NUS Blue text on hover */
 }
 .tab button.active {
-  background-color: #ef7c00;
+  background-color: #EF7C00; /* NUS Orange */
+  color: #FFFFFF; /* White text */
 }
 
+/* Card styling from nus-theme.css should take precedence. */
+/* This .card might be a local override. Ensure it's necessary. */
+/* If this is for specific cards in dashboard, they should have more specific selectors. */
+/* For now, updating border and radius to match theme. */
 .card {
   background-color: #ffffff;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
-  padding: 20px;
+  border: 1px solid #dee2e6; /* Theme border */
+  border-radius: 0.375rem; /* Theme radius */
+  padding: 20px; /* This is larger than Bootstrap's default 1rem (16px if base is 16px) */
 }
 
 p {
@@ -388,27 +438,31 @@ i.bi-stopwatch {
 
 /* Styling for each tab */
 .tablinks {
-  background-color: transparent;
-  border: none;
+  background-color: #FFFFFF; /* White background for inactive tabs */
+  border: 1px solid transparent; /* Ensure no border by default, or a very light one e.g. #dee2e6 if needed */
   outline: none;
   cursor: pointer;
   padding: 8px 14px;
-  margin: 0 10px;
-  font-size: 20px;
+  margin: 0 5px 5px 0; /* Adjusted margin for better spacing when wrapping */
+  font-size: 1rem; /* Adjusted font size for consistency, 20px is quite large */
   font-weight: 500;
-  color: #9b9898; /* Light gray for inactive tabs */
-  transition: color 0.2s ease;
-  flex: 0 1 auto; /* Allow the tab to grow and wrap as needed */
+  color: #212529; /* Dark text for inactive tabs */
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  flex: 0 1 auto;
+  border-radius: 0.25rem; /* Standard border radius */
 }
 
 /* Active tab background and color */
 .tablinks.active {
-  background-color: #e9953b;
-  color: white;
-  border-radius: 10px;
+  background-color: #EF7C00; /* NUS Orange */
+  color: #FFFFFF; /* White text */
+  border-color: #EF7C00; /* Match background */
+  /* border-radius: 10px; */ /* Using 0.25rem from above for consistency */
 }
 
 /* Hover effect for inactive tabs */
-.tablinks:hover {
-  color: #ef7c00;
+.tablinks:not(.active):hover {
+  color: #003D7C; /* NUS Blue text */
+  background-color: #e9ecef; /* Optional: very light background */
+  border-color: #dae0e5; /* Optional: light border */
 }
