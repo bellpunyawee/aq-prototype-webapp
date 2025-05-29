@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!-- Extend from header -->
+{% extends "header_template.html" %}
+
+<!-- Stylesheets -->
+{% block css_script_1 %}
+<!-- Placeholder for any specific CSS for this page if needed later -->
+{% endblock %}
+{% block css_script_2 %}
+<link href="{{url_for('static', filename='css/nus-theme.css')}}" rel="stylesheet">
+{% endblock %}
+{% block css_script_3 %}
+<link href="{{url_for('static', filename='dashboard.css')}}" rel="stylesheet"> <!-- For card styling, buttons etc. -->
+{% endblock %}
+
+<!-- Javascript Scripts -->
+{% block js_script_1 %}
+<!-- Placeholder for any specific JS for this page if needed later -->
+{% endblock %}
+
+<!-- Body -->
+{% block body_app %}
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white"> <!-- NUS Blue background -->
+                    <h2 class="mb-0"><i class="bi bi-check2-circle me-2"></i>Pre-Quiz Completed!</h2>
+                </div>
+                <div class="card-body p-4">
+                    <h3 class="card-title mb-4">Your Performance Summary</h3>
+                    
+                    <div class="alert alert-info"> <!-- Using alert for now, can be styled better -->
+                        <p class="fs-5">Thank you for completing the pre-quiz. Here's a summary of your performance:</p>
+                    </div>
+
+                    <!-- Placeholder for results - actual variables depend on what's passed from Flask route -->
+                    <div class="mb-3">
+                        <p class="fs-5"><strong>Score:</strong> {{ prequiz_score | default('Not available') }}</p>
+                    </div>
+                    <div class="mb-3">
+                        <p class="fs-5"><strong>Questions Answered:</strong> {{ prequiz_total_answered | default('N/A') }} / {{ prequiz_total_questions | default('N/A') }}</p>
+                    </div>
+                    
+                    <!-- Example of how quiz_response_list could be displayed (requires processing in route) -->
+                    {% if quiz_responses and quiz_responses is iterable %}
+                        <h4 class="mt-4 mb-3">Detailed Responses (Example):</h4>
+                        <ul>
+                        {% for response in quiz_responses %}
+                            {# Assuming each 'response' is a list/object you can get details from #}
+                            {# This is highly dependent on the structure of quiz_response_list #}
+                            <li class="fs-6">Question {{ loop.index }}: {% if response == 1 %}Correct{% elif response == 0 %}Incorrect{% else %}Not Answered (IDK){% endif %}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <hr class="my-4">
+
+                    <div class="text-center">
+                        <a href="{{ url_for('display_homepage') }}" class="btn btn-primary btn-lg"> <!-- Points to overview/dashboard -->
+                            <i class="bi bi-arrow-right-circle-fill me-2"></i>Continue to Overview
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
