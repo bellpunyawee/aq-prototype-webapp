@@ -1,0 +1,64 @@
+jinja_block
+body_app
+<div class="container-fluid m-auto py-3" id="top-row">
+       <div class="row">
+           <!-- Warning Alert -->
+           <div class="alert alert-warning fw-bold" style="block-size: auto;" role="alert"><i class="bi bi-exclamation-square-fill"></i>&nbsp; This
+               site is still
+               under development. Bugs and broken pages are expected. Please send us an email for any issues.
+           </div>
+       </div>
+       <!-- Breadcrumbs could go here if this page needs them -->
+   </div>
+
+   <!-- Header Card -->
+   <div class="container mx-auto">
+       <div class="row p-0" id="header-text">
+           <div class="col py-0 px-0">
+               <div class="dashboard-hero-header bg-light p-4 p-md-5 mb-4 rounded">
+                   <div class="row align-items-center">
+                       <div class="col-md-8">
+                           <h1 class="display-6 fw-bold text-primary mb-2">PM5101 PROJECT MANAGEMENT</h1>
+                           <p class="fs-4 text-muted">Adaptive Quiz Platform</p>
+                           <hr class="my-4">
+                           <p class="fs-5 fw-semibold"><i class="bi bi-person-circle me-2"></i>Welcome back, <strong id="username_text">[username]</strong></p>
+                           <p class="text-body-secondary">Here is an overview of your progress and performance:</p>
+                       </div>
+                       <div class="col-md-4 text-center d-none d-md-block">
+                           <i class="bi bi-bar-chart-line-fill text-primary" style="font-size: 6rem; opacity: 0.5;"></i>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+
+   <!-- Main Overview Content Area -->
+   <div class="container">
+        <div id="main_alert_point" class="my-2"></div> <!-- General alert point -->
+
+        <!-- Start Quiz Button -->
+        <div class="d-flex justify-content-center my-4">
+            <button type="button" class="btn btn-primary btn-lg fw-bold px-5 py-3" id="start_quiz_btn_QE2_OG_disclaimer" style="border-radius: 30px;">
+               Start Quiz &nbsp;<i class="bi bi-arrow-right-circle-fill"></i>
+           </button>
+       </div>
+
+       <!-- Placeholder for original commented out Overview content -->
+       <!-- These would be the "Personalised LP" and "Score History" cards -->
+       <div class="card my-2">
+           <div class="card-header fw-bold h5"><i class="bi bi-person-circle"></i> Knowledge Unit Path (Example)</div>
+           <div class="card-body">
+               <p class="text-center fst-italic text-muted">Content for Personalised Learning Path would appear here if active.</p>
+               <!-- Actual content for Personalised LP was commented out in source dashboard.html -->
+           </div>
+       </div>
+       <div class="card my-2">
+           <div class="card-header fw-bold h5"><i class="bi bi-hourglass-split"></i> Score History (Example)</div>
+           <div class="card-body">
+               <p class="text-center fst-italic text-muted">Content for Score History would appear here if active.</p>
+               <!-- Actual content for Score History was commented out in source dashboard.html -->
+           </div>
+       </div>
+   </div>
+{% endblock %}

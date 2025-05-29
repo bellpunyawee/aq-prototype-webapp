@@ -1,0 +1,75 @@
+jinja_block
+body_app
+<div class="container-fluid mt-4">
+       <div class="row mb-3">
+           <div class="col">
+               <h1>Quiz Settings</h1>
+               <p class="text-muted">Configure your quiz preferences and parameters.</p>
+           </div>
+       </div>
+
+       <div id="main_alert_point" class="my-2"></div> <!-- General alert point -->
+
+       <div class="card my-2">
+           <div class="card-header fw-bold h5"><i class="bi bi-sliders"></i> Settings</div>
+           <div class="card-body">
+               <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-5">
+                   <button class="btn btn-primary" id="setting_start_quiz_btn"><i class="bi bi-floppy2-fill"></i> Save settings and start the quiz</button> <!-- Changed btn-dark to btn-primary -->
+               </div>
+               <div class="row">
+                   <form>
+                       <div class="row mb-3 pb-3 border-bottom"> <!-- Added pb-3 for spacing -->
+                           <div class="col-md-6"> <!-- Using col-md-6 for better layout on medium screens -->
+                               <label for="inputQnNo" class="col-form-label fw-bold">Maximum Number of Questions <i class="bi bi-info-circle-fill" data-bs-toggle="tooltip" title="Choose the total number of questions in a single quiz session."></i></label>
+                               <p class="text-body-tertiary small mb-0">
+                                   Choose the total number of questions in a single quiz session.
+                               </p>
+                           </div>
+                           <div class="col-md-6">
+                               <div class="input-group mt-2 mt-md-0"> <!-- Adjusted margin for smaller screens -->
+                                   <select class="form-select" id="max_limit">
+                                       {% for i in range(10,(30 + 10),10) %}
+                                       <option value="{{i}}" {% if (max_limit==i) %}selected{% endif %}>
+                                           {{i}}
+                                       </option>
+                                       {% endfor %}
+                                   </select>
+                                   <label class="input-group-text" for="inputGroupSelect">questions</label>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="row mb-3 pt-3"> <!-- Added pt-3 for spacing -->
+                           <div class="col-md-6">
+                               <label for="random_check" class="col col-form-label fw-bold">Knowledge Units (KU) Configuration <i class="bi bi-info-circle-fill" data-bs-toggle="tooltip" title="Choose the KU(s) that you want to practice or included in this quiz."></i></label>
+                               <p class="text-body-tertiary small mb-2 mb-md-0"> <!-- Adjusted margin -->
+                                   Choose the KU(s) that you want to practice or included in this quiz.
+                               </p>
+                               <div class="form-check mt-3">
+                                   <input class="form-check-input" type="checkbox" value="" id="random_check">
+                                   <label class="form-check-label" for="random_check">
+                                       Randomly picked KU (unselect if you want to customise)
+                                   </label>
+                               </div>
+                           </div>
+                           <div class="col-md-6">
+                               <div class="mb-3 mt-2 mt-md-0"> <!-- Adjusted margin -->
+                                   <div id="random_box" class="d-none"> <!-- This div should be controlled by JS to show/hide based on random_check -->
+                                       <label for="cell_num" class="form-label">Number of random KUs:</label>
+                                       <input id="cell_num" class="form-control" type="number" value="3" min="1" max="10"> <!-- Defaulted value to 3, adjust as needed -->
+                                   </div>
+                                   <div id="select_box" class=""> <!-- This div should be controlled by JS -->
+                                       <label class="form-label">Select KUs to include:</label>
+                                       <div id="cell_box" class="mb-2">
+                                           <!-- KU selection items will be populated here by JS -->
+                                           <span class="badge bg-secondary me-1">Example KU 1 <button type="button" class="btn-close btn-close-white ms-1" aria-label="Remove"></button></span>
+                                       </div>
+                                       <button class="btn btn-outline-secondary btn-sm" type="button" id="add_cell"><i class="bi bi-plus-circle"></i> Add KU</button> <!-- Changed to btn-outline-secondary and added icon -->
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </form>
+               </div>
+           </div>
+       </div>
+   </div>

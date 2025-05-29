@@ -1,0 +1,79 @@
+jinja_block
+body_app
+<div class="container-fluid mt-4">
+       <div class="row mb-3">
+           <div class="col">
+               <h1>Report & Attempt History</h1>
+               <p class="text-muted">Review your past attempts and detailed explanations.</p>
+           </div>
+       </div>
+
+       <div id="main_alert_point" class="my-2"></div> <!-- General alert point, similar to dashboard -->
+
+       <div id="report">
+           <!-- Attempt Summary -->
+           <div class="card my-2">
+               <div class="card-header fw-bold h5"><i class="bi bi-graph-up-arrow"></i> Attempt Summary</div>
+               <div class="card-body">
+                   <table class="table">
+                       <tbody>
+                           <tr class="fw-bold">
+                               <td>Total time taken</td>
+                               <td>Module(s)</td>
+                               <td>Answered correctly</td>
+                               <td>Total quiz answered</td>
+                           </tr>
+                           <tr>
+                               <td><input type="text" class="form-control" id="report_time" readonly disabled></td>
+                               <td><input type="text" class="form-control" id="selected_cell" readonly disabled></td>
+                               <td><input type="text" class="form-control" id="report_correct" readonly disabled></td>
+                               <td><input type="text" class="form-control" id="report_num_quiz" readonly disabled></td>
+                           </tr>
+                       </tbody>
+                   </table>
+                   <div class="container my-5"></div> <!-- This was in the original, purpose unclear but retained -->
+               </div>
+           </div>
+
+           <!-- Previous Attempts / Answer History -->
+           <div class="card my-2">
+               <div class="card-header fw-bold h5 border-top border-secondary-subtle">
+                   <i class="bi bi-clock-history"></i>&nbsp; <span id="attempt_report_ans"></span> Answer History
+                   <small>(Click on answer history to see explanation)</small>
+               </div>
+               <!-- Tab system for individual attempt answers -->
+               <div class="tab-container">
+                   <div class="tab-header" id="attempt_tab"></div>
+               </div>
+               <div class="card-body">
+                   <div class="row">
+                       <div class="col">
+                           <div class="container-fluid text-center" id="report_attempt_answer"></div>
+                       </div>
+                   </div>
+                   <!-- Breakdown of explanation -->
+                   <div class="row" id="history_exp_card">
+                       <table class="table table-borderless">
+                           <tr><th class="text-start"><h5>Question<span id="question_id"></span>:</h5></th></tr>
+                           <tr><td class="text-start text-break"><p id="history_question_text"></p></td></tr>
+                           <tr><td class="text-start"><h5>Your answer:</h5></td></tr>
+                           <tr><td class="text-start text-break"><p id="history_answer_text"></p></td></tr>
+                           <tr><td class="text-start"><h5>Explanation:</h5></td></tr>
+                           <tr><td class="text-start text-break"><p id="history_explanation_text"></p></td></tr>
+                       </table>
+                   </div>
+               </div>
+           </div>
+
+           <!-- Queries -->
+           <div id="query_alert_point"></div>
+           <div class="card border bg-body-tertiary my-1 p-4"> <!-- bg-body-tertiary gives a light grey background -->
+               <h2 class="display-6 fw-bold mb-3"><i class="bi bi-question-circle-fill"></i> Got questions?</h2>
+               <p>Just type in your questions in the message box below and our friendly course instructors will assist you.</p>
+               <div class="input-group mb-3">
+                   <input type="text" class="form-control" placeholder="Type your queries here" aria-label="Type your queries here" aria-describedby="button-addon2" id="query_msg">
+                   <button class="btn btn-secondary" type="button" id="query_submit_btn">Send</button>
+               </div>
+           </div>
+       </div> <!-- End of #report div -->
+   </div>

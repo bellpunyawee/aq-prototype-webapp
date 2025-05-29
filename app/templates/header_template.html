@@ -70,29 +70,30 @@
           <a class="navbar-brand col-lg-3 me-0 fw-bold text-dark" href="#" target="_blank" rel="noopener noreferrer"
             ><i class="bi bi-journal-bookmark-fill" ></i> Adaptive Quiz</a
           >
-          <!-- May add redirect links later -->
-          <!-- <ul class="navbar-nav col-lg-6 justify-content-lg-center fw-bold">
+          <!-- Main Navigation Links -->
+          <ul class="navbar-nav col-lg-6 justify-content-lg-center fw-bold">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/"
-                ><i class="bi bi-house-door-fill"></i> Home</a
-              >
+                <a class="nav-link" id="nav-overview" href="{{ url_for('overview_page') }}"> 
+                    <i class="bi bi-house-door-fill"></i> Overview
+                </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="/"
-                ><i class="bi bi-bookmark-star-fill"></i> Assignment</a
-              >
+                <a class="nav-link" id="nav-report" href="{{ url_for('report_history_page') }}"> 
+                    <i class="bi bi-clipboard-data-fill"></i> Report History
+                </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" href="#"
-                ><i class="bi bi-clipboard-fill"></i> Tasks</a
-              >
+                <a class="nav-link" id="nav-settings" href="{{ url_for('settings_page') }}"> 
+                    <i class="bi bi-sliders"></i> Settings
+                </a>
             </li>
+            <!-- Add other common links here if needed, e.g., a link to Canvas module page -->
             <li class="nav-item">
-              <a class="nav-link disabled" href="#"
-                ><i class="bi bi-chat-left-dots-fill"></i> Messages</a
-              >
+                <a class="nav-link" id="nav-external-canvas" href="https://canvas.nus.edu.sg/" target="_blank"> 
+                    <i class="bi bi-box-arrow-up-right"></i> Canvas
+                </a>
             </li>
-          </ul> -->
+          </ul>
           <div class="d-lg-flex col-lg-3 justify-content-lg-end">
             <a href="/logout"
               ><button class="btn btn-dark">
