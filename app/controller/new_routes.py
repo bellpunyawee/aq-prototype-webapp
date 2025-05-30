@@ -5,6 +5,16 @@ from app import app # Assuming 'app' is the Flask app instance, imported from th
 # depending on how Flask app is structured (e.g., using a Blueprint)
 # For now, assuming 'app' can be imported as shown.
 
+# Custom error handler for 403 Forbidden
+@app.errorhandler(403)
+def forbidden_error_handler(error):
+    return "<h1>403 Forbidden - Access is forbidden</h1>", 403
+
+# Custom error handler for accessing undefined page
+@app.errorhandler(404)
+def page_not_found(error):
+    return "<h1>404 Not Found</h1>", 404
+
 @app.route("/overview_new") # Added _new to avoid potential conflict if old /overview is still somehow active
 def overview(): # Function name is overview, not overview_new to match url_for in template
     session_start = session.get('user_id') is not None

@@ -53,7 +53,7 @@ function initReportHistoryPage() {
             // This should ideally navigate to the overview page or quiz start page
             // For now, assuming overview_page.html is the target via its route
             if (typeof overview_new === 'function') { // Check if route function name is accessible
-                 window.location.href = "{{ url_for('overview_new') }}"; // This Jinja won't work in .js
+                 window.location.href = "{{ url_for('overview') }}"; // This Jinja won't work in .js
                  // Better to use direct path or have path passed from template
                  console.warn("Redirection for retake quiz needs a proper URL.");
                  window.location.href = "/overview_new"; // Example direct path
