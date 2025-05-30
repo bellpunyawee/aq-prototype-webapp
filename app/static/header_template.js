@@ -1,6 +1,3 @@
-block_type_to_replace
-file
-new_block_content
 /* Event assignment to object */
 $(document).ready(function () {
   // Only call functions that are still defined in this file or are globally available (like jQuery's $)
@@ -34,7 +31,7 @@ function loginADQ(state) { // Parameter 'state' is not used
     // console.log('Attempting to log in...');
     // console.log('Username field value:', $('#login_user_id').val());
     // console.log('Password field value (pre-btoa):', $('#login_user_pw').val());
-    this_password = btoa(this_password); // Consider security implications of client-side btoa for passwords
+    // this_password = btoa(this_password); // THIS LINE IS NOW COMMENTED OUT
     var remember_me_checkbox = $("#rememberme_login_page"); // ID used in new login page
     var remember_me = remember_me_checkbox.is(":checked");
 

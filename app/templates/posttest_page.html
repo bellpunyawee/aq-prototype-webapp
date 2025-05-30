@@ -12,6 +12,7 @@
 <script src="{{url_for('static', filename='js/jquery.dataTables.min.js')}}"></script>
 {% endblock %} {% block js_script_2 %}
 <script src="{{url_for('static', filename='js/chart.js')}}"></script>
+<script src="{{ url_for('static', filename='js/quiz_logic.js') }}"></script>
 {% endblock %} {% block js_script_3 %} {% if session_start == true %}
 <script src="{{url_for('static', filename='posttest.js')}}"></script>
 <script type="text/javascript">

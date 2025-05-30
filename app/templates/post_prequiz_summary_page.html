@@ -15,7 +15,7 @@
 
 <!-- Javascript Scripts -->
 {% block js_script_1 %}
-<!-- Placeholder for any specific JS for this page if needed later -->
+<script src="{{ url_for('static', filename='js/post_prequiz_summary.js') }}"></script>
 {% endblock %}
 
 <!-- Body -->
@@ -57,7 +57,7 @@
                     <hr class="my-4">
 
                     <div class="text-center">
-                        <a href="{{ url_for('display_homepage') }}" class="btn btn-primary btn-lg"> <!-- Points to overview/dashboard -->
+                        <a href="{{ url_for('overview_new') }}" class="btn btn-primary btn-lg"> <!-- Points to overview/dashboard -->
                             <i class="bi bi-arrow-right-circle-fill me-2"></i>Continue to Overview
                         </a>
                     </div>
