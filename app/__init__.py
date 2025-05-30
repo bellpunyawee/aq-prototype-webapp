@@ -31,6 +31,6 @@ warnings.simplefilter("ignore")
 
 # Definition of routes
 # Route with rendering templates
-from app.controller import routes
+from app.controller import new_routes
 # Route for requesting responses
 from app.controller import responses
