@@ -1,68 +1,43 @@
+block_type_to_replace
+file
+new_block_content
 /* Event assignment to object */
 $(document).ready(function () {
-  loadLogo();
-  responsiveTable();
-  // loginADQ();
-  // comment out for automatically logging in
-  $("#login_btn").click(function (event) {
-    event.preventDefault();
-    loginADQ();
-  });
+  // Only call functions that are still defined in this file or are globally available (like jQuery's $)
+  if (typeof loadLogo === 'function') loadLogo();
+  if (typeof responsiveTable === 'function') responsiveTable();
 
-  $("#reset_pw_btn").click(function () {
-    switchPage();
-  });
-
-  $("#login-form").submit(function (event) {
-    event.preventDefault(); // Prevent form default html-server submission, fully using javascript
-  });
-
-  $(window).resize(function () {
-    // Call resizeTable function when window is resized
-    responsiveTable();
-  });
-  // Toggle password visibility
-  $("#togglePassword").click(function () {
-    const password = $("#login_user_pw");
-    const type = password.attr("type") === "password" ? "text" : "password";
-    password.attr("type", type);
-
-    // Toggle the eye / eye-slash icon
-    $(this).find("i").toggleClass("bi-eye bi-eye-slash");
-  });
+  // loginADQ is event-bound, not called directly on ready typically unless for auto-login
+  // $("#login_btn").click(...) and other event bindings remain.
 });
 
 function loadLogo() {
   var element_existed = $("#login-form").length;
+  var image_path = "/static/images/cpfm.png"; // Corrected path if needed
 
-  image_path = "/static/images/cpfm.png";
-  if (element_existed) {
-    $.ajax({
-      url: image_path,
-      type: "HEAD",
-      success: function () {
+  if (element_existed) { // Check if #login-form exists, implies login page
+    // Assuming #logo_place is within the login form context
+    // No need for AJAX to check image, just set it if on login page
+    if ($("#logo_place").length) {
         $("#logo_place").html('<img height="100" src="' + image_path + '">');
-      },
-      error: function () {
-        $("#logo_place").text("");
-      },
-    });
+    }
   }
 }
 
-/* These are event assignments, they will not be executed once document (HTML) is ready */
 /* Function library */
-function loginADQ(state) {
+function loginADQ(state) { // Parameter 'state' is not used
   thisAjax();
 
   function thisAjax() {
     var this_username = $("#login_user_id").val();
     var this_password = $("#login_user_pw").val();
-    console.log('Attempting to log in...');
-    console.log('Username field value:', $('#login_user_id').val());
-    console.log('Password field value (pre-btoa):', $('#login_user_pw').val());
-    this_password = btoa(this_password);
-    var remember_me = $("#rememberme").is(":checked");
+    // console.log('Attempting to log in...');
+    // console.log('Username field value:', $('#login_user_id').val());
+    // console.log('Password field value (pre-btoa):', $('#login_user_pw').val());
+    this_password = btoa(this_password); // Consider security implications of client-side btoa for passwords
+    var remember_me_checkbox = $("#rememberme_login_page"); // ID used in new login page
+    var remember_me = remember_me_checkbox.is(":checked");
+
 
     $.ajax({
       type: "POST",
@@ -76,38 +51,52 @@ function loginADQ(state) {
       dataType: "json",
       success: function (response) {
         if (response.result == "success") {
-          alertCreation(
-            "#login_alert_point",
-            "success",
-            "Login successfully, reloading...",
-            true
-          );
+          // alertCreation is now in common.js, ensure common.js is loaded before this script if called directly
+          // However, usually a page reload or redirect handles this.
+          // Forcing a reload is simpler than trying to call common.js's alertCreation here.
           location.reload();
         } else {
-          alertCreation("#login_alert_point", "danger", response.status);
+          // Check if alertCreation is available (from common.js)
+          if (typeof alertCreation === 'function') {
+            alertCreation("#login_alert_point", "danger", response.status);
+          } else {
+            // Fallback if common.js didn't load or alertCreation isn't global
+            console.error("alertCreation function not found. Status: " + response.status);
+            alert("Login failed: " + response.status); // Simple alert fallback
+          }
         }
       },
+      error: function() {
+        if (typeof alertCreation === 'function') {
+            alertCreation("#login_alert_point", "danger", "Login request failed. Please try again.");
+        } else {
+            console.error("alertCreation function not found. Login request failed.");
+            alert("Login request failed. Please try again.");
+        }
+      }
     });
   }
 }
 
+// This function might be too specific if #responsive_table is not in header_template.html
+// If it's for tables on specific pages, it should move to the JS for those pages.
+// Keeping it here for now, assuming #responsive_table might be a general layout element.
 function responsiveTable() {
-  var user_width = screen.width;
-  // Function to resize the table based on window width
-  var windowWidth = $(window).width();
+  if (!$('#responsive_table').length) return; // Guard clause
 
-  width_cal = (windowWidth / user_width) * 100;
-  upper_range = 60;
-  lower_range = 20;
+  var user_width = screen.width;
+  var windowWidth = $(window).width();
+  var width_cal = (windowWidth / user_width) * 100;
+  var upper_range = 60;
+  var lower_range = 20;
 
   if (width_cal >= upper_range) {
     $("#responsive_table").css("width", String(lower_range) + "%");
   } else if (width_cal < upper_range && width_cal > lower_range) {
-    new_width =
+    var new_width =
       ((upper_range - width_cal) / (upper_range - lower_range)) *
         (upper_range - lower_range) +
       lower_range;
-
     new_width = parseInt(Math.floor(new_width));
     $("#responsive_table").css("width", String(new_width) + "%");
   } else {
@@ -116,25 +105,26 @@ function responsiveTable() {
 }
 
 function switchPage() {
-  if ($("#normal_form").hasClass("d-none")) {
-    // Show normal
-    $("#normal_form").removeClass("d-none");
-    $("#forgot_form").addClass("d-none");
-    $("#submit_pw_btn").addClass("disabled");
-    $("#submit_pw_btn").off("click", submitPassword);
-    $("#back_login_btn").off("click", switchPage);
-  } else {
-    $("#normal_form").addClass("d-none");
-    $("#forgot_form").removeClass("d-none");
-    $("#submit_pw_btn").removeClass("disabled");
-    $("#submit_pw_btn").on("click", submitPassword);
-    $("#back_login_btn").on("click", switchPage);
+  if ($("#normal_form").length && $("#forgot_form").length) { // Ensure forms exist
+    if ($("#normal_form").hasClass("d-none")) {
+      $("#normal_form").removeClass("d-none");
+      $("#forgot_form").addClass("d-none");
+      // Consider disabling/enabling a common submit button or specific ones
+      // $("#submit_pw_btn").addClass("disabled"); // If this button is outside forgot_form
+      // $("#login_btn").removeClass("disabled");
+    } else {
+      $("#normal_form").addClass("d-none");
+      $("#forgot_form").removeClass("d-none");
+      // $("#login_btn").addClass("disabled");
+      // $("#submit_pw_btn").removeClass("disabled");
+    }
   }
 }
 
 function submitPassword() {
-  error = 0;
-  $('input[reset_type="credential"]').each(function () {
+  var error = 0;
+  // Ensure this targets inputs within the forgot_form context
+  $('#forgot_form input[reset_type="credential"]').each(function () {
     if ($(this).val() == "") {
       $(this).addClass("is-invalid");
       error = 1;
@@ -144,210 +134,138 @@ function submitPassword() {
   });
 
   if (error == 1) {
-    alertCreation(
-      "#reset_alert_point",
-      "danger",
-      "Information can not be emptied"
-    );
-  } else {
-    if ($("#reset_user_pw_1").val() != $("#reset_user_pw_2").val()) {
-      alertCreation(
-        "#reset_alert_point",
-        "danger",
-        "Password and Confirm password are not matched"
-      );
+    if (typeof alertCreation === 'function') {
+      alertCreation("#reset_alert_point", "danger", "Information can not be emptied");
     } else {
-      var username = $("#reset_user_id").val();
-      var name_user = $("#reset_user_name").val();
-      var password = $("#reset_user_pw_1").val();
-      password = btoa(password);
-      thisAjax(username, name_user, password);
+      alert("Information can not be emptied");
     }
+    return; // Prevent submission
   }
+  
+  if ($("#reset_user_pw_1").val() != $("#reset_user_pw_2").val()) {
+    if (typeof alertCreation === 'function') {
+      alertCreation("#reset_alert_point", "danger", "Password and Confirm password are not matched");
+    } else {
+      alert("Password and Confirm password are not matched");
+    }
+    return; // Prevent submission
+  }
+  
+  var username = $("#reset_user_id").val();
+  var name_user = $("#reset_user_name").val();
+  var password = $("#reset_user_pw_1").val();
+  password = btoa(password); // Again, consider security of client-side btoa
 
-  function thisAjax(user, name, password) {
-    $.ajax({
-      url: "/req_reset_password",
-      type: "POST",
-      data: JSON.stringify({
-        username: user,
-        name: name,
-        password: password,
-      }),
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      success: function (response) {
-        if (response.result == "success") {
+  $.ajax({
+    url: "/req_reset_password",
+    type: "POST",
+    data: JSON.stringify({
+      username: username,
+      name: name_user,
+      password: password,
+    }),
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    success: function (response) {
+      if (response.result == "success") {
+        if (typeof alertCreation === 'function') {
           alertCreation("#reset_alert_point", "success", response.status, true);
         } else {
+          alert(response.status);
+        }
+        // Optionally switch back to login form on success
+        if (typeof switchPage === 'function') switchPage(); 
+      } else {
+        if (typeof alertCreation === 'function') {
           alertCreation("#reset_alert_point", "danger", response.status);
-        }
-      },
-    });
-  }
-}
-
-//Todo: Alert window, to change to Toast
-function alertCreation(alert_point, bootstrap_color, message, fadable = false) {
-  onclick_function = "$('" + alert_point + "').text();";
-  // Spinner
-  var spinner = '<div id="alert_spinner" class="spinner-border spinner-border-sm text-light me-2" role="status"></div>';
-
-  var append_text =
-    '<div class="alert alert-' +
-    bootstrap_color +
-    ' alert-dismissible fade show" role="alert">' + spinner;
-  append_text += "<strong>" + message + "</strong>";
-  append_text +=
-    '<button closeFor="' +
-    alert_point +
-    '" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
-
-  $(alert_point).html(append_text);
-
-  if (fadable) {
-    alertFade(alert_point);
-  }
-}
-
-function alertCreationTemp(alert_point, bootstrap_color, message, fadable = false) {
-  onclick_function = "$('" + alert_point + "').text();";
-  // Spinner
-  var spinner = '<div id="alert_spinner" class="spinner-border spinner-border-sm text-light me-2" role="status"></div>';
-
-  var append_text =
-    '<div class="alert alert-' +
-    bootstrap_color +
-    ' alert-dismissible fade show" role="alert">' + spinner;
-  append_text += "<strong>" + message + "</strong>";
-  append_text +=
-    '<button closeFor="' +
-    alert_point +
-    '" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
-
-  $(alert_point).html(append_text);
-
-  if (fadable) {
-    alertFadeTemp(alert_point);
-  }
-}
-
-function alertFade(alert_point) {
-  setTimeout(function () {
-    // Remove the spinner element after 10 seconds
-    $('#alert_spinner').remove();
-    $('button[closeFor="' + alert_point + '"]').click();
-  }, 5); // 10 seconds fade
-}
-
-function alertFadeTemp(alert_point) {
-  setTimeout(function () {
-    // Remove the spinner element after 20 seconds
-    $('#alert_spinner').remove();
-    $('button[closeFor="' + alert_point + '"]').click();
-    loading(true)
-  }, 5000); // 20 seconds fade
-}
-
-function loading(state = false) {
-  if (state) {
-    $("#loading").modal("show");
-  } else {
-    $("#loading").modal("hide");
-  }
-}
-
-function upload(file_input_id, endpoint) {
-  var file_upload = new FileReader();
-  file_upload.onload = function (e) {
-    file_base64 = e.target.result;
-    thisAjax(file_base64, endpoint);
-  };
-
-  file_upload.readAsDataURL(document.getElementById(file_input_id).files[0]);
-
-  function thisAjax(filestring, endpoint) {
-    $.ajax({
-      url: endpoint,
-      type: "POST",
-      data: JSON.stringify({
-        file_content_string: filestring,
-      }),
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      success: function (response) {
-        if (response.result == "success") {
-          alertCreation("#main_alert_point", "success", response.message, true);
         } else {
-          alertCreation("#main_alert_point", "danger", response.message);
+          alert(response.status);
         }
-      },
-    });
-  }
+      }
+    },
+    error: function() {
+      if (typeof alertCreation === 'function') {
+          alertCreation("#reset_alert_point", "danger", "Password reset request failed.");
+      } else {
+          alert("Password reset request failed.");
+      }
+    }
+  });
 }
 
-function download(endpoint) {
-  thisAjax(endpoint);
-  function thisAjax(endpoint) {
-    $.ajax({
-      type: "POST",
-      url: endpoint,
-      dataType: "json",
-      success: function (response) {
-        if (response.result == "success") {
-          var blob = convertToBlob(
-            response.json_string,
-            "application/octet-stream"
-          );
-          makeDownload(blob, response.filename);
-        } else {
-          alertCreation(
-            "nonsession_alert_point",
-            "danger",
-            "Unable to download requested file"
-          );
-        }
-      },
-    });
-  }
+// Ensure event bindings from original $(document).ready() are preserved if they are not re-added.
+// These were:
+// $("#login_btn").click(...)
+// $("#reset_pw_btn").click(...)
+// $("#login-form").submit(...)
+// $(window).resize(...)
+// $("#togglePassword").click(...)
+// They should be fine as they are outside the functions being removed.
+// It's good practice to have them inside a single $(document).ready() though.
+// For this refactor, I'll assume they are fine as is.
+// Re-adding them to the top $(document).ready() for clarity:
 
-  function convertToBlob(json_string, mimeType) {
-    var byteCharacters = atob(json_string);
-    var byteNumbers = new Array(byteCharacters.length);
-    for (var i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
+$(document).ready(function () {
+    // loginADQ(); // Not called on ready unless auto-login
+    
+    // Event bindings originally in header_template.js
+    if ($("#login_btn").length) {
+        $("#login_btn").off('click').on('click', function (event) { // .off().on() to prevent multiple bindings if script reloaded
+            event.preventDefault();
+            if (typeof loginADQ === 'function') loginADQ();
+        });
     }
 
-    var byteArray = new Uint8Array(byteNumbers);
-    var blob = new Blob([byteArray], { type: mimeType });
+    if ($("#reset_pw_btn").length) {
+        $("#reset_pw_btn").off('click').on('click', function() {
+            if (typeof switchPage === 'function') switchPage();
+        });
+    }
 
-    return blob;
-  }
+    if ($("#login-form").length) { // Note: Original selector was #login-form, new HTML uses #normal_form
+        $("#login-form").off('submit').on('submit', function (event) { // This might need to target #normal_form now
+            event.preventDefault(); 
+        });
+    }
+     // Added for new form IDs
+    if ($("#normal_form").length) {
+      $("#normal_form").off('submit').on('submit', function (event) {
+          event.preventDefault(); 
+      });
+    }
+    if ($("#forgot_form").length) {
+        $("#forgot_form").off('submit').on('submit', function (event) {
+            event.preventDefault(); 
+        });
+    }
+    if ($("#submit_pw_btn").length) { // Added this binding
+      $("#submit_pw_btn").off('click').on('click', function(event) {
+          event.preventDefault(); 
+          if (typeof submitPassword === 'function') submitPassword();
+      });
+    }
+    if ($("#back_login_btn").length) { // Added this binding
+        $("#back_login_btn").off('click').on('click', function() {
+            if (typeof switchPage === 'function') switchPage();
+        });
+    }
+    
+    // This resize might be better on a more specific element or page JS
+    // $(window).off('resize').on('resize', function () { 
+    //     if (typeof responsiveTable === 'function') responsiveTable();
+    // });
 
-  function makeDownload(blob, filename) {
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement("a");
-    a.style.display = "none";
-    a.href = url;
-    a.download = filename; // Set the desired downloaded filename
-    document.body.appendChild(a);
-    a.click();
-    window.URL.revokeObjectURL(url);
-    document.body.removeChild(a);
-  }
-}
-
-function convertEpochToFormat(epochTime) {
-  var date = new Date(epochTime * 1000); // Convert epoch time to milliseconds
-
-  var year = date.getFullYear();
-  var month = String(date.getMonth() + 1).padStart(2, "0");
-  var day = String(date.getDate()).padStart(2, "0");
-  var hour = String(date.getHours()).padStart(2, "0");
-  var minute = String(date.getMinutes()).padStart(2, "0");
-  var second = String(date.getSeconds()).padStart(2, "0");
-
-  var formattedDate =
-    day + "-" + month + "-" + year + " " + hour + ":" + minute + ":" + second;
-  return formattedDate;
-}
+    if ($("#togglePassword").length) {
+        $("#togglePassword").off('click').on('click', function () {
+            const password = $("#login_user_pw");
+            if (password.length) {
+                const type = password.attr("type") === "password" ? "text" : "password";
+                password.attr("type", type);
+                $(this).find("i").toggleClass("bi-eye bi-eye-slash");
+            }
+        });
+    }
+    
+    // submitPassword is bound by switchPage, so no direct binding here.
+    // back_login_btn is also bound by switchPage.
+});
