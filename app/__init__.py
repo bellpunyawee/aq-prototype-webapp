@@ -23,7 +23,7 @@ from flask import Flask, session
 
 # Application creation
 app = Flask(__name__, instance_relative_config=False)
-app.secret_key = b'2\xa7\x8e\xc0\x95\xa1O)\xb3oY\xb58\x16\x00\x10'
+app.secret_key = os.environ.get("SECRET_KEY")
 
 # Configuration
 app.config.from_file("conf/flask_conf.json", load=json.load)
